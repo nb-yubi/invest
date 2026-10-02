@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thiết Lập Mã Đợt — INVEST</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='flatpickr.min.css') }}">
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f6fa; margin: 0; }
+  .topbar { background: #0984e3; color: white; height: 38px; display: flex;
+            align-items: center; padding: 0 15px; gap: 5px; position: sticky; top: 0; z-index: 5;
+            width: 100%; margin: 0; }
+  .topbar .title { font-weight: bold; font-size: 17px; flex: 1; }
+
+  .wrap { width: 100%; margin: 0; background: white; padding: 18px 25px 40px; min-height: calc(100vh - 38px); }
+
+  .search { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end;
+            background: #f1f7fc; border: 1px solid #bde0fe; border-radius: 10px;
+            padding: 14px 18px; margin-bottom: 18px; }
+  .search .fld { display: flex; flex-direction: column; gap: 4px; }
+  .search label { font-size: 13px; font-weight: 600; color: #2d3436; }
+  .search input { padding: 8px; border: 1px solid #dcdde1; border-radius: 6px; font-size: 14px; width: 160px; }
+  .search input#s-ma { width: 120px; text-transform: uppercase; }
+  .search button { padding: 8px 22px; border: none; border-radius: 6px; font-size: 14px;
+                   font-weight: bold; cursor: pointer; color: white; background: #0984e3; }
+  .search button:hover { background: #0868c4; }
+  .search .clear { background: #b2bec3; }
+  .search .clear:hover { background: #9aa5aa; }
+
+  .toolbar { display: flex; gap: 10px; margin-bottom: 14px; }
+  .toolbar button { padding: 9px 18px; border: none; border-radius: 6px; font-size: 14px;
+                    font-weight: bold; cursor: pointer; color: white; }
+  .btn-add { background: #00b894; } .btn-add:hover { background: #00a383; }
+  .btn-edit { background: #fdcb6e; color: #2d3436 !important; } .btn-edit:hover { background: #f5b942; }
+  .btn-del { background: #d63031; } .btn-del:hover { background: #b82728; }
+  .toolbar .iconbtn { border: none; cursor: pointer; display: none;
+                      padding: 9px 20px; border-radius: 6px; font-size: 15px;
+                      font-weight: bold; color: white; }
+  .toolbar .iconbtn.show { display: inline-block; }
+  .ic-cancel { background: #d63031; } .ic-cancel:hover { background: #b82728; }
+  .ic-save { background: #00b894; } .ic-save:hover { background: #00a383; }
+
+  .tbl-holder { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { border: 1px solid #e1e1e1; padding: 7px 9px; text-align: center; white-space: nowrap; }
+  th { background: #0984e3; color: white; }
+  td input { width: 110px; padding: 6px; border: 1px solid #74b9e3; border-radius: 4px;
+             font-size: 14px; text-align: center; }
+  td input[name="madot"], td input[name="ma"] { text-transform: uppercase; }
+  td input[name="madot"] { text-align: left; }
+  td input[name="ma"] { text-align: left; }
+  tbody tr { cursor: pointer; }
+  tbody tr:nth-child(even) { background: #f7f9fc; }
+  tbody tr:hover { background: #d6ecfa; }
+  tbody tr.selected { background: #85d4f1 !important; font-weight: 600; }
+  tbody tr.editing { background: #fff8d6 !important; }
+  td.macp { text-align: left; }
+  .empty { text-align: center; color: #888; padding: 20px; }
+  .note { margin-top: 14px; font-size: 13px; color: #636e72; line-height: 1.6; }
+  .note b { color: #2d3436; }
+
+  .modal-bg { display: none; position: fixed; inset: 0; background: rgba(45,52,54,.45);
+              z-index: 100; align-items: center; justify-content: center; }
+  .modal-bg.show { display: flex; }
+  .modal { background: white; border-radius: 12px; padding: 28px 35px; max-width: 420px;
+           box-shadow: 0 10px 40px rgba(0,0,0,.25); text-align: center; }
+  .modal .ic { font-size: 44px; }
+  .modal .msg { margin: 12px 0 22px; font-size: 16px; color: #2d3436; line-height: 1.5; }
+  .modal .btns { display: flex; gap: 12px; justify-content: center; }
+  .modal button { padding: 10px 28px; border: none; border-radius: 6px; font-size: 15px;
+                  font-weight: bold; cursor: pointer; color: white; }
+  .m-yes { background: #0984e3; } .m-yes:hover { background: #0868c4; }
+  .m-no { background: #b2bec3; } .m-no:hover { background: #9aa5aa; }
+
+  #msg { margin-top: 15px; padding: 10px 14px; border-radius: 6px; display: none; font-size: 14px; }
+  .ok { background: #e3f9e5; color: #009432; border: 1px solid #b8e6be; }
+  .err { background: #ffe3e3; color: #c0392b; border: 1px solid #f5b7b1; }
+
+  .burger { background: none; border: none; color: white; font-size: 20px; cursor: pointer;
+            padding: 2px 8px; }
+  .burger:hover { background: rgba(255,255,255,.15); border-radius: 6px; }
+  .menu { position: fixed; top: 38px; left: 0; bottom: 0; width: 240px; background: #2d3436;
+          transform: translateX(-100%); transition: transform .2s ease; padding-top: 8px; z-index: 120; }
+  .menu.open { transform: translateX(0); }
+  .menu .mtitle { color: white; font-weight: bold; padding: 6px 20px 3px; letter-spacing: 2px; font-size: 13px; }
+  .menu button.mitem { display: block; width: 100%; text-align: left; background: none; border: none;
+                        color: white; padding: 8px 20px; font-size: 14px; cursor: pointer; }
+  .menu button.mitem:hover { background: #576574; }
+  .menu-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.3); z-index: 110; }
+  .menu-overlay.show { display: block; }
+  body.in-tab .burger, body.in-tab .menu, body.in-tab .menu-overlay { display: none !important; }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <button class="burger" onclick="toggleMenu()" title="Menu">&#9776;</button>
+    <span class="title">Thiết Lập Mã Đợt</span>
+  </div>
+
+  <div class="wrap">
+    <form class="search" id="fSearch" method="GET" action="/dotgd">
+      <div class="fld"><label>Mã CP</label><input id="s-ma" name="ma" value="{{ ma }}" placeholder="VD: TCB"></div>
+      <button type="submit">🔍 Tìm</button>
+      <button type="button" class="clear" onclick="xoaLoc()">🧹 Xóa lọc</button>
+    </form>
+
+    <div class="toolbar">
+      <button class="btn-add" id="btnAdd" title="Thêm mới" onclick="themMoi()">➕</button>
+      <button class="btn-edit" id="btnEdit" title="Sửa" onclick="suaDong()">✏️</button>
+      <button class="btn-del" id="btnDel" title="Xóa" onclick="xoaDong()">🗑️</button>
+      <button class="iconbtn ic-cancel" id="btnCancel" title="Hủy" onclick="huyForm()">✖</button>
+      <button class="iconbtn ic-save" id="btnSave" title="Lưu" onclick="luu()">💾</button>
+    </div>
+
+    <div class="tbl-holder">
+      <table id="tbl">
+        <thead>
+          <tr><th>#</th><th>Mã Đợt</th><th>Mã CP</th><th>Ngày Bắt Đầu</th><th>Ngày Kết Thúc</th></tr>
+        </thead>
+        <tbody>
+          {% for r in rows %}
+          <tr data-id="{{ r.IDDOT }}" data-madot="{{ r.MADOT }}" data-ma="{{ r.MACP }}"
+                   data-ngaybd="{{ r.NGAYBD }}" data-ngaykt="{{ r.NGAYKT }}"
+              onclick="chonDong(this)">
+            <td>{{ loop.index }}</td>
+            <td class="macp">{{ r.MADOT }}</td>
+            <td class="macp">{{ r.MACP }}</td>
+            <td>{{ r.NGAYBD }}</td>
+            <td>{{ r.NGAYKT or '' }}</td>
+          </tr>
+          {% endfor %}
+          {% if not rows %}
+          <tr><td colspan="5" class="empty">Chưa có đợt giao dịch nào{% if ma %} cho mã {{ ma }}{% endif %}. Nhấn <b>➕ Thêm</b> để thiết lập.</td></tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note">
+      <b>Quy ước:</b> Đợt đang mở = <b>Ngày Kết Thúc để trống</b>. Mỗi Mã CP nên có đúng 1 đợt đang mở —
+      các menu Ghi Nhận (MUA/BÁN/CỔ TỨC) tự lấy Mã Đợt đang mở của mã CP từ bảng này.
+      Đóng đợt bằng cách nhập Ngày Kết Thúc cho dòng đó.
+    </div>
+
+    <div id="msg"></div>
+  </div>
+
+  <!-- Hộp thoại xác nhận -->
+  <div class="modal-bg" id="modalBg">
+    <div class="modal">
+      <div class="ic" id="modalIc">❓</div>
+      <div class="msg" id="modalMsg"></div>
+      <div class="btns">
+        <button class="m-yes" id="modalYes">Đồng ý</button>
+        <button class="m-no" id="modalNo">Không</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menu 3 gạch -->
+  <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+  <nav class="menu" id="menu">
+    <div class="mtitle">MENU</div>
+    {% for label, code in menu_items %}
+      <button class="mitem" onclick="chonMenu('{{ code }}')">{{ label }}</button>
+    {% endfor %}
+  </nav>
+
+  <script>
+    const HOM_NAY = "{{ hom_nay }}";   // YYYY/MM/DD
+    let mode = null;                   // 'add' | 'edit' | null
+    let selected = null, editRow = null;
+
+    function xacNhan(ic, msg) {
+      return new Promise(resolve => {
+        document.getElementById('modalIc').textContent = ic;
+        document.getElementById('modalMsg').textContent = msg;
+        const bg = document.getElementById('modalBg');
+        bg.classList.add('show');
+        const done = ok => {
+          bg.classList.remove('show');
+          document.getElementById('modalYes').onclick = null;
+          document.getElementById('modalNo').onclick = null;
+          resolve(ok);
+        };
+        document.getElementById('modalYes').onclick = () => done(true);
+        document.getElementById('modalNo').onclick = () => done(false);
+      });
+    }
+
+    function hienIcon() {
+      const editing = mode !== null;
+      ['btnAdd','btnEdit','btnDel'].forEach(id =>
+        document.getElementById(id).style.display = editing ? 'none' : '');
+      document.getElementById('btnCancel').classList.toggle('show', editing);
+      document.getElementById('btnSave').classList.toggle('show', editing);
+    }
+
+    function chonDong(tr) {
+      if (mode) return;
+      document.querySelectorAll('#tbl tbody tr').forEach(r => r.classList.remove('selected'));
+      tr.classList.add('selected');
+      selected = tr;
+    }
+
+    function khoiTaoLich() {
+      if (typeof flatpickr !== 'function') return;
+      document.querySelectorAll('input.js-ngay').forEach(inp => {
+        if (inp._flatpickr) return;
+        flatpickr(inp, { dateFormat: 'Y/m/d', allowInput: true, disableMobile: true });
+      });
+    }
+
+    function dongInput(name, val) {
+      if (name === 'madot' || name === 'ma') {
+        return `<input name="${name}" value="${val ?? ''}" style="text-align:left"
+                 oninput="this.value=this.value.toUpperCase()">`;
+      }
+      if (name === 'ngaybd' || name === 'ngaykt') {
+        return `<input name="${name}" type="text" class="js-ngay" value="${val ?? ''}"
+                 placeholder="YYYY/MM/DD" maxlength="10" style="text-align:center">`;
+      }
+      return `<input name="${name}" value="${val ?? ''}">`;
+    }
+
+    function bienThanhNhap(tr, data) {
+      tr.classList.add('editing');
+      tr.onclick = null;
+      tr.innerHTML = `
+        <td>•</td>
+        <td>${dongInput('madot', data.madot)}</td>
+        <td>${dongInput('ma', data.ma)}</td>
+        <td>${dongInput('ngaybd', data.ngaybd)}</td>
+        <td>${dongInput('ngaykt', data.ngaykt)}</td>`;
+      khoiTaoLich();
+    }
+
+    function themMoi() {
+      if (mode) return;
+      mode = 'add';
+      const tbody = document.querySelector('#tbl tbody');
+      const tr = document.createElement('tr');
+      tr.dataset.id = '';
+      tbody.appendChild(tr);
+      bienThanhNhap(tr, { madot: '', ma: '', ngaybd: HOM_NAY, ngaykt: '' });
+      editRow = tr;
+      hienIcon();
+      const emptyRow = tbody.querySelector('td.empty')?.parentElement;
+      if (emptyRow) emptyRow.remove();
+      tr.querySelector('input[name="madot"]').focus();
+    }
+
+    function suaDong() {
+      if (mode) return;
+      if (!selected) { baoLoi('Vui lòng chọn một dòng để sửa!'); return; }
+      mode = 'edit';
+      editRow = selected;
+      bienThanhNhap(editRow, {
+        madot: editRow.dataset.madot, ma: editRow.dataset.ma,
+        ngaybd: (editRow.dataset.ngaybd || '').slice(0, 10).replaceAll('-', '/'),
+        ngaykt: (editRow.dataset.ngaykt || '').slice(0, 10).replaceAll('-', '/') });
+      hienIcon();
+      editRow.querySelector('input[name="madot"]').focus();
+    }
+
+    function huyForm() {
+      if (mode === 'add' && editRow) editRow.remove();
+      if (mode === 'edit' && editRow) location.reload();
+      mode = null; editRow = null;
+      hienIcon();
+    }
+
+    async function luu() {
+      if (!editRow) return;
+      const v = n => editRow.querySelector(`input[name="${n}"]`).value.trim();
+      const madot = v('madot'), ma = v('ma'), ngaybd = v('ngaybd'), ngaykt = v('ngaykt');
+      if (!madot) { baoLoi('Vui lòng nhập Mã Đợt!'); return; }
+      if (!ma)    { baoLoi('Vui lòng nhập Mã CP!'); return; }
+      if (!/^\d{4}\/\d{2}\/\d{2}$/.test(ngaybd)) { baoLoi('Ngày Bắt Đầu phải theo lịch YYYY/MM/DD!'); return; }
+      if (ngaykt && !/^\d{4}\/\d{2}\/\d{2}$/.test(ngaykt)) { baoLoi('Ngày Kết Thúc phải theo lịch YYYY/MM/DD!'); return; }
+      const body = {
+        id: editRow.dataset.id, madot: madot, ma: ma,
+        ngaybd: ngaybd, ngaykt: ngaykt,
+      };
+      const r = await fetch('/api/dotgd/luu', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body) });
+      const d = await r.json();
+      if (d.ok) { location.reload(); }
+      else baoLoi(d.error);
+    }
+
+    async function xoaDong() {
+      if (mode) return;
+      if (!selected) { baoLoi('Vui lòng chọn một dòng để xóa!'); return; }
+      const ok = await xacNhan('🗑️', 'Bạn có chắc muốn xóa đợt ' + selected.dataset.madot + ' (Mã CP ' + selected.dataset.ma + ') không?');
+      if (!ok) return;
+      const r = await fetch('/api/dotgd/xoa', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: selected.dataset.id }) });
+      const d = await r.json();
+      if (d.ok) location.reload();
+      else baoLoi(d.error);
+    }
+
+    async function xoaLoc() {
+      location.href = '/dotgd';
+    }
+
+    function toggleMenu() {
+      document.getElementById('menu').classList.toggle('open');
+      document.getElementById('menuOverlay').classList.toggle('show');
+    }
+
+    function inTab() { return window.parent !== window; }
+
+    function moMenuCha(url, label) {
+      window.parent.postMessage({type: 'open-tab', url: url, label: label}, '*');
+    }
+
+    async function chonMenu(url) {
+      if (inTab()) {
+        const lb = document.querySelector('.topbar .title');
+        moMenuCha(url, lb ? lb.textContent.trim() : '');
+      } else {
+        location.href = url;
+      }
+    }
+
+    if (inTab()) document.body.classList.add('in-tab');
+
+    function baoLoi(text) {
+      if (!text) return;
+      const m = document.getElementById('msg');
+      m.style.display = 'block'; m.className = 'err'; m.textContent = text;
+      setTimeout(() => m.style.display = 'none', 5000);
+    }
+    document.addEventListener('DOMContentLoaded', khoiTaoLich);
+  </script>
+  <script src="{{ url_for('static', filename='flatpickr.min.js') }}"></script>
+  <script>document.addEventListener('DOMContentLoaded', khoiTaoLich);</script>
+</body>
+</html>
