@@ -132,7 +132,11 @@ def validate_row(data):
     # Tổng Tiền: MUA = KL*Giá + Tổng Phí; BÁN = KL*Giá − Tổng Thuế Phí (đã trừ thuế)
     dau = 1 if loai != "BAN" else -1
     thanh_tien = kl * gia + dau * kl * phi
-    return {"LOAIGD": str(data.get("loai", "")).strip(), "MACP": ma, "NGAYGD": ngay_iso,
+    # Chuẩn hóa LOAIGD có dấu: MUA / BÁN / CỔ TỨC (các báo cáo lọc theo 'BÁN' có dấu)
+    _chuan = {"MUA": "MUA", "BAN": "BÁN", "CỔ TỨC": "CỔ TỨC", "CO TUC": "CỔ TỨC"}
+    loai_db = _chuan.get(str(data.get("loai", "")).strip().upper(),
+                         str(data.get("loai", "")).strip())
+    return {"LOAIGD": loai_db, "MACP": ma, "NGAYGD": ngay_iso,
             "MADOT": madot,
             "KHOILUONG": kl, "GIA": gia, "PHIGD": phi, "THANHTIEN": thanh_tien}, None
 
