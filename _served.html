@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<!-- LAYOUT v3: table-layout fixed + colgroup 90px -->
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tra Tìm Chi Tiết — INVEST</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f5f6fa;
+      margin: 0;
+    }
+
+    .topbar {
+      background: #0984e3;
+      color: white;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      padding: 0 15px;
+    }
+
+    .wrap {
+      margin: 0;
+      padding: 18px 22px 40px;
+      min-height: calc(100vh - 52px);
+      background: #f5f6fa;
+    }
+
+    .card {
+      background: white;
+      padding: 20px 24px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, .08);
+    }
+
+    /* Khối tra tìm — giống form MUA/BÁN */
+    .search {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: flex-end;
+      background: #f1f7fc;
+      border: 1px solid #bde0fe;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-bottom: 18px;
+    }
+
+    .search .fld {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .search label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #2d3436;
+    }
+
+    .search input {
+      padding: 8px;
+      border: 1px solid #dcdde1;
+      border-radius: 6px;
+      font-size: 14px;
+      width: 180px;
+      text-transform: uppercase;
+    }
+
+    .search select {
+      padding: 8px;
+      border: 1px solid #dcdde1;
+      border-radius: 6px;
+      font-size: 14px;
+      width: 220px;
+      background: white;
+      cursor: pointer;
+    }
+
+    .search button {
+      padding: 8px 22px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      color: white;
+      background: #0984e3;
+    }
+
+    .search button:hover {
+      background: #0868c4;
+    }
+
+    .search .clear {
+      background: #b2bec3;
+    }
+
+    .search .clear:hover {
+      background: #9aa5aa;
+    }
+
+    .tbl-wrap {
+      overflow-x: auto;
+      border-radius: 8px;
+      border: 1px solid #e1e1e1;
+    }
+
+    table {
+      width: 100%;
+      min-width: 1824px;   /* 19 cột * 96px — tránh nén cột trên màn hình hẹp */
+      table-layout: fixed;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    /* Các cột thường: 1/19 chiều rộng bảng; cột Mã CP = 50% cột thường */
+    col {
+      width: calc(100% / 19);
+    }
+
+    col.col-ma {
+      width: calc(50% / 19);
+    }
+
+    th,
+    td {
+      border: 1px solid #b8bec6;
+      padding: 5px 7px;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: middle;
+    }
+
+    /* Cột Mã CP căn trái — đỏ, in đậm */
+    .c-ma {
+      text-align: left;
+      color: #d63031;
+      font-weight: bold;
+    }
+
+    /* Cột số: căn phải */
+    .num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ===== TIÊU ĐỀ TẦNG 1 (nhóm) — màu đậm, chữ trắng ===== */
+    thead tr.g th {
+      color: white;
+      font-size: 13px;
+      font-weight: bold;
+      border: 1px solid white;
+      position: sticky;
+      top: 0;
+      z-index: 3;
+    }
+
+    /* ===== TIÊU ĐỘ TẦNG 2 (cột con) — màu nhạt, chữ đậm ===== */
+    thead tr.d th {
+      font-size: 11.5px;
+      font-weight: bold;
+      position: sticky;
+      top: 29px;
+      z-index: 2;
+    }
+
+    /* --- Màu nhóm: xanh dương (Mã CP, Tổng Tiền MUA, GIAO DỊCH MUA) --- */
+    .g-blue {
+      background: #4a86e8;
+    }
+
+    .d-blue {
+      background: #dbe7fb;
+      color: #1a4d99;
+    }
+
+    /* --- Màu nhóm: cam (Tổng Tiền BÁN, GIAO DỊCH BÁN) --- */
+    .g-orange {
+      background: #f9a03f;
+    }
+
+    .d-orange {
+      background: #fdeddb;
+      color: #9a4a06;
+    }
+
+    /* --- Màu nhóm: xanh lá (Lãi/Lỗ) --- */
+    .g-green {
+      background: #6aa84f;
+    }
+
+    /* --- Màu nhóm: hồng (Số Tiền Còn Lại) --- */
+    .g-pink {
+      background: #e6b8b8;
+      color: #4a1414;
+    }
+
+    .d-pink {
+      background: #f7e3e3;
+      color: #6b2020;
+    }
+
+    /* --- Màu nhóm: tím (Tỷ Suất Sinh Lời) --- */
+    .g-purple {
+      background: #8e6bb5;
+    }
+
+    .d-purple {
+      background: #ecdfF5;
+      color: #4a2569;
+    }
+
+    /* --- Màu nhóm: xanh ngọc (CỔ TỨC) --- */
+    .g-teal {
+      background: #4aa3a8;
+    }
+
+    .d-teal {
+      background: #d9f0f1;
+      color: #0d5659;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #f7f9fc;
+    }
+
+    tbody tr:hover {
+      background: #e8f2fd;
+    }
+
+    /* Ô Lãi/Lỗ và % tương ứng: tô màu theo dấu */
+    .cl-lai {
+      color: #009432;
+      font-weight: bold;
+    }
+
+    .cl-lo {
+      color: #d63031;
+      font-weight: bold;
+    }
+
+    /* Cột Giá Online: đỏ = thấp hơn giá gốc, xanh lá = cao hơn, đen = bằng */
+    .go-thap {
+      color: #d63031;
+      font-weight: bold;
+    }
+
+    .go-cao {
+      color: #009432;
+      font-weight: bold;
+    }
+
+    .go-bang {
+      color: #222;
+    }
+
+    tr:nth-child(even) {
+      background: #f7f9fc;
+    }
+
+    tbody tr:hover {
+      background: #e8f2fd;
+    }
+
+    .empty {
+      text-align: center;
+      color: #888;
+      padding: 30px;
+      background: white;
+      border-radius: 8px;
+    }
+
+    /* ===== HÀNG GIẢI THÍCH TOÁN (dưới bảng) ===== */
+    tfoot td {
+      background: #fbfbfb;
+      color: #222;
+      font-size: 11px;
+      white-space: normal;
+      line-height: 1.45;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    /* Ô nhãn viết dọc, giống hình mẫu */
+    tfoot td.f-label {
+      text-align: center;
+      vertical-align: middle;
+      font-weight: bold;
+      font-size: 12px;
+      background: #f2f2f2;
+      line-height: 1.15;
+      width: 62px;
+    }
+
+    /* 2 dòng chú thích dấu lãi / lỗ */
+    .note-lai {
+      text-align: center;
+      color: #d63031;
+      font-weight: bold;
+    }
+
+    .note-lo {
+      text-align: center;
+      color: #009432;
+      font-weight: bold;
+    }
+
+    /* Menu 3 gạch (☰) dạng drawer */
+    .burger {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 2px 8px;
+    }
+
+    .burger:hover {
+      background: rgba(255, 255, 255, .15);
+      border-radius: 6px;
+    }
+
+    .menu {
+      position: fixed;
+      top: 52px;
+      left: 0;
+      bottom: 0;
+      width: 260px;
+      background: #2d3436;
+      transform: translateX(-100%);
+      transition: transform .2s ease;
+      padding-top: 15px;
+      z-index: 120;
+    }
+
+    .menu.open {
+      transform: translateX(0);
+    }
+
+    .menu .mtitle {
+      color: white;
+      font-weight: bold;
+      padding: 10px 20px 5px;
+      letter-spacing: 2px;
+    }
+
+    .menu button.mitem {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      color: white;
+      padding: 13px 20px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .menu button.mitem:hover {
+      background: #576574;
+    }
+
+    .menu-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .3);
+      z-index: 110;
+    }
+
+    .menu-overlay.show {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topbar">
+    <button class="burger" onclick="toggleMenu()" title="Menu">&#9776;</button>
+    <b>Tra Tìm Chi Tiết</b>
+  </div>
+  <div class="wrap">
+    <div class="card">
+      <!-- Điều kiện tra tìm: giống UI Tra Tìm Theo Tổng -->
+      <form class="search" method="GET">
+        <div class="fld">
+          <label>Mã CP</label>
+          <input name="ma" value="TCB" placeholder="VD: TCB">
+        </div>
+        <div class="fld">
+          <label>Số cổ phiếu còn lại</label>
+          <select name="sl">
+            <option value="ALL" selected>Toàn bộ</option>
+            <option value="GT0" >Số lượng &gt; 0</option>
+            <option value="EQ0" >Số lượng = 0</option>
+          </select>
+        </div>
+        <button type="submit">🔍 Tìm</button>
+        <button type="button" class="clear" onclick="location.href='/chitiet'">🧹 Xóa lọc</button>
+      </form>
+      
+      <div class="tbl-wrap">
+        <table>
+          <colgroup>
+            <col class="col-ma">
+            <col class="col-even"><col class="col-even"><col class="col-even"><col class="col-even">
+            <col class="col-even"><col class="col-even"><col class="col-even"><col class="col-even">
+            <col class="col-even"><col class="col-even"><col class="col-even"><col class="col-even">
+            <col class="col-even"><col class="col-even"><col class="col-even"><col class="col-even">
+            <col class="col-even"><col class="col-even">
+          </colgroup>
+          <thead>
+            <!-- Tầng 1: nhóm cột, màu đậm chữ trắng -->
+            <tr class="g">
+              <th class="g-blue c-ma" rowspan="2">Mã CP</th>
+              <th class="g-blue" rowspan="2">Tổng Tiền<br>MUA</th>
+              <th class="g-orange" colspan="2">Tổng Tiền BÁN</th>
+              <th class="g-green" rowspan="2">Lãi/Lỗ</th>
+              <th class="g-pink" colspan="4">Số Tiền Còn Lại</th>
+              <th class="g-purple" colspan="2">Tỷ Suất Sinh Lời (%)</th>
+              <th class="g-blue" colspan="3">GIAO DỊCH MUA</th>
+              <th class="g-orange" colspan="3">GIAO DỊCH BÁN</th>
+              <th class="g-teal" colspan="2">CỔ TỨC</th>
+            </tr>
+            <!-- Tầng 2: tên cột con, màu nhạt -->
+            <tr class="d">
+              <th class="d-orange">Theo Giá MUA</th>
+              <th class="d-orange">Theo Giá BÁN + <br> C.TỨC</th>
+              <th class="d-pink">Số CP<br>Còn Lại</th>
+              <th class="d-pink">Cân Hòa Vốn</th>
+              <th class="d-pink">Giá Online</th>
+              <th class="d-pink">Thực Tế</th>
+              <th class="d-purple">% Lãi/Lỗ Đã<br>Bán</th>
+              <th class="d-purple">% Lãi/Lỗ Tạm<br>Tính (Giá<br>Online)</th>
+              <th class="d-blue">Tổng SL<br>MUA</th>
+              <th class="d-blue">Giá MUA<br>T.Bình</th>
+              <th class="d-blue">Tổng<br>Thu/Phí</th>
+              <th class="d-orange">Tổng SL<br>BÁN</th>
+              <th class="d-orange">Giá BÁN<br>T.Bình</th>
+              <th class="d-orange">Tổng<br>Thu/Phí</th>
+              <th class="d-teal">SL Cổ<br>Tức</th>
+              <th class="d-teal">T.Tiền<br>C.Tức</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              
+              
+              <td class="c-ma">TCB</td>
+              
+              
+              
+              <td class="num">1.000.100</td>
+              
+              
+              
+              <td class="num">0</td>
+              
+              
+              
+              <td class="num">0</td>
+              
+              
+              
+              <td class="num ">0</td>
+              
+              
+              
+              <td class="num">100</td>
+              
+              
+              
+              <td class="num">1.000.000</td>
+              
+              
+              
+              <td class="num go-cao">32.700</td>
+              
+              
+              
+              <td class="num">3.270.000</td>
+              
+              
+              
+              <td class="num "></td>
+              
+              
+              
+              <td class="num cl-lai">+227.0%</td>
+              
+              
+              
+              <td class="num">100</td>
+              
+              
+              
+              <td class="num">10.000</td>
+              
+              
+              
+              <td class="num">1.000.100</td>
+              
+              
+              
+              <td class="num">0</td>
+              
+              
+              
+              <td class="num">0</td>
+              
+              
+              
+              <td class="num">0</td>
+              
+              
+              
+              <td class="num">0</td>
+              
+              
+              
+              <td class="num">0</td>
+              
+              
+            </tr>
+            
+          </tbody>
+          <tfoot>
+            <!-- Hàng 1: giải thích toán -->
+            <tr>
+              <td class="f-label" rowspan="3">Điền<br>giải<br>thích<br>toán</td>
+              <td>= (Tổng SL Mua * Giá Mua T.Bình) + Thuế/Phí</td>
+              <td>= (Tổng SL Bán * Giá Mua T.Bình) + (Thuế/Phí * Tổng SL Bán / Tổng SL Mua)</td>
+              <td>= (S.Lượng Bán * Giá Bán T.Bình) - Thuế/Phí + T.Tiền C.Tức</td>
+              <td>= (Tổng Tiền BÁN Theo Giá BÁN + C.TỨC) - Tổng Tiền BÁN Theo Giá MUA</td>
+              <td></td>
+              <td>Số CP Còn Lại * Giá MUA Trung Bình</td>
+              <td>Giá đóng cửa hôm nay (vnstock)</td>
+              <td>Số CP Còn Lại * Giá Online</td>
+                            <td>= (Lãi/Lỗ) / (Tổng Tiền BÁN Theo Giá MUA)</td>
+                <td>= (Giá Online - Giá Mua Trung Bình) / Giá Mua Trung Bình</td>
+
+              <td></td>
+              <td></td>
+              <td>SUM(Thuế/Phí của từng lệnh MUA)</td>
+              <td></td>
+              <td></td>
+              <td>SUM(Thuế/Phí của từng lệnh BÁN)</td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      
+    </div>
+  </div>
+  <!-- Menu 3 gạch -->
+  <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+  <nav class="menu" id="menu">
+    <div class="mtitle">MENU</div>
+    
+    <button class="mitem" onclick="location.href='/form/MUA'">01.Ghi Nhận MUA</button>
+    
+    <button class="mitem" onclick="location.href='/form/BAN'">02.Ghi Nhận BÁN</button>
+    
+    <button class="mitem" onclick="location.href='/form/CỔ TỨC'">03.Ghi Nhận CỔ TỨC</button>
+    
+    <button class="mitem" onclick="location.href='/tra'">04.Tra Tìm Dữ Liệu Giao Dịch</button>
+    
+    <button class="mitem" onclick="location.href='/tong'">05.Tra Tìm Theo Tổng</button>
+    
+    <button class="mitem" onclick="location.href='/chitiet'">06.Tra Tìm Chi Tiết</button>
+    
+  </nav>
+</body>
+<script>
+  function toggleMenu() {
+    document.getElementById('menu').classList.toggle('open');
+    document.getElementById('menuOverlay').classList.toggle('show');
+  }
+</script>
+</html>
