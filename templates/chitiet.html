@@ -1,11 +1,11 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!-- LAYOUT v3: table-layout fixed + colgroup 90px -->
 <html lang="vi">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tra T穫m Chi Ti廕篙 ??INVEST</title>
+  <title>Tra Tìm Chi Tiết — INVEST</title>
   <style>
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
@@ -38,7 +38,7 @@
       box-shadow: 0 4px 20px rgba(0, 0, 0, .08);
     }
 
-    /* Kh廙 tra t穫m ??gi廙g form MUA/B?N */
+    /* Khối tra tìm — giống UI Tra Tìm Theo Tổng */
     .search {
       display: flex;
       flex-wrap: wrap;
@@ -107,19 +107,20 @@
 
     .tbl-wrap {
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
       border-radius: 8px;
       border: 1px solid #e1e1e1;
     }
 
     table {
       width: 100%;
-      min-width: 1824px;   /* 19 c廙 * 96px ??tr獺nh n矇n c廙 tr礙n m?n h穫nh h廕雷 */
+      min-width: 1824px;   /* 19 cột * 96px — tránh nén cột trên màn hình hẹp */
       table-layout: fixed;
       border-collapse: collapse;
       font-size: 12px;
     }
 
-    /* C獺c c廙 th廙g: 1/19 chi廙 r廙g b廕τg; c廙 M瓊 CP = 50% c廙 th廙g */
+    /* Các cột thường: 1/19 chiều rộng bảng; cột Mã CP = 50% cột thường */
     col {
       width: calc(100% / 19);
     }
@@ -137,20 +138,20 @@
       vertical-align: middle;
     }
 
-    /* C廙 M瓊 CP c?n tr獺i ???廙? in ?廕衫 */
+    /* Cột Mã CP căn trái — đỏ, in đậm */
     .c-ma {
       text-align: left;
       color: #d63031;
       font-weight: bold;
     }
 
-    /* C廙 s廙? c?n ph廕ξ */
+    /* Cột số: căn phải */
     .num {
       text-align: right;
       font-variant-numeric: tabular-nums;
     }
 
-    /* ===== TI?U ?廙 T廕吉G 1 (nh籀m) ??m?u ?廕衫, ch廙?tr廕疸g ===== */
+    /* ===== TIÊU ĐỀ TẦNG 1 (nhóm) — màu đậm, chữ trắng ===== */
     thead tr.g th {
       color: white;
       font-size: 13px;
@@ -161,7 +162,7 @@
       z-index: 3;
     }
 
-    /* ===== TI?U ?廙?T廕吉G 2 (c廙 con) ??m?u nh廕﹀, ch廙??廕衫 ===== */
+    /* ===== TIÊU ĐỘ TẦNG 2 (cột con) — màu nhạt, chữ đậm ===== */
     thead tr.d th {
       font-size: 11.5px;
       font-weight: bold;
@@ -170,7 +171,7 @@
       z-index: 2;
     }
 
-    /* --- M?u nh籀m: xanh dng (M瓊 CP, T廙g Ti廙 MUA, GIAO D廙H MUA) --- */
+    /* --- Màu nhóm: xanh dương (Mã CP, Tổng Tiền MUA, GIAO DỊCH MUA) --- */
     .g-blue {
       background: #4a86e8;
     }
@@ -180,7 +181,7 @@
       color: #1a4d99;
     }
 
-    /* --- M?u nh籀m: cam (T廙g Ti廙 B?N, GIAO D廙H B?N) --- */
+    /* --- Màu nhóm: cam (Tổng Tiền BÁN, GIAO DỊCH BÁN) --- */
     .g-orange {
       background: #f9a03f;
     }
@@ -190,12 +191,12 @@
       color: #9a4a06;
     }
 
-    /* --- M?u nh籀m: xanh l獺 (L瓊i/L廙? --- */
+    /* --- Màu nhóm: xanh lá (Lãi/Lỗ) --- */
     .g-green {
       background: #6aa84f;
     }
 
-    /* --- M?u nh籀m: h廙g (S廙?Ti廙 C簷n L廕【) --- */
+    /* --- Màu nhóm: hồng (Số Tiền Còn Lại) --- */
     .g-pink {
       background: #e6b8b8;
       color: #4a1414;
@@ -206,7 +207,7 @@
       color: #6b2020;
     }
 
-    /* --- M?u nh籀m: t穩m (T廙?Su廕另 Sinh L廙) --- */
+    /* --- Màu nhóm: tím (Tỷ Suất Sinh Lời) --- */
     .g-purple {
       background: #8e6bb5;
     }
@@ -216,7 +217,7 @@
       color: #4a2569;
     }
 
-    /* --- M?u nh籀m: xanh ng廙 (C廙?T廙每) --- */
+    /* --- Màu nhóm: xanh ngọc (CỔ TỨC) --- */
     .g-teal {
       background: #4aa3a8;
     }
@@ -234,7 +235,7 @@
       background: #e8f2fd;
     }
 
-    /* ? L瓊i/L廙?v? % tng 廙姊g: t繫 m?u theo d廕只 */
+    /* Ô Lãi/Lỗ và % tương ứng: tô màu theo dấu */
     .cl-lai {
       color: #009432;
       font-weight: bold;
@@ -245,7 +246,7 @@
       font-weight: bold;
     }
 
-    /* C廙 Gi獺 Online: ?廙?= th廕叼 hn gi獺 g廙, xanh l獺 = cao hn, ?en = b廕彫g */
+    /* Cột Giá Online: đỏ = thấp hơn giá gốc, xanh lá = cao hơn, đen = bằng */
     .go-thap {
       color: #d63031;
       font-weight: bold;
@@ -276,7 +277,7 @@
       border-radius: 8px;
     }
 
-    /* ===== H?NG GI廕＠ TH?CH TO?N (d廙 b廕τg) ===== */
+    /* ===== HÀNG GIẢI THÍCH TOÁN (dưới bảng) ===== */
     tfoot td {
       background: #fbfbfb;
       color: #222;
@@ -288,7 +289,7 @@
       vertical-align: top;
     }
 
-    /* ? nh瓊n vi廕篙 d廙, gi廙g h穫nh m廕哎 */
+    /* Ô nhãn viết dọc, giống hình mẫu */
     tfoot td.f-label {
       text-align: center;
       vertical-align: middle;
@@ -299,7 +300,7 @@
       width: 62px;
     }
 
-    /* 2 d簷ng ch繳 th穩ch d廕只 l瓊i / l廙?*/
+    /* 2 dòng chú thích dấu lãi / lỗ */
     .note-lai {
       text-align: center;
       color: #d63031;
@@ -312,7 +313,7 @@
       font-weight: bold;
     }
 
-    /* Menu 3 g廕︷h (?? d廕》g drawer */
+    /* Menu 3 gạch (☰) dạng drawer */
     .burger {
       background: none;
       border: none;
@@ -379,11 +380,11 @@
       display: block;
     }
 
-    /* Khi ch廕『 b礙n trong tab c廙吧 trang cha (iframe): 廕姊 burger + menu ri礙ng,
-       menu ?瓊 c籀 s廕登 tr礙n thanh c廙吧 trang cha */
+    /* Khi chạy bên trong tab của trang cha (iframe): ẩn burger + menu riêng,
+       menu đã có sẵn trên thanh của trang cha */
     body.in-tab .burger, body.in-tab .menu, body.in-tab .menu-overlay { display: none !important; }
 
-    /* ===== Responsive: ?i廙 tho廕【 / m?n h廕雷 ===== */
+    /* ===== Responsive: điện thoại / màn hẹp ===== */
     @media (max-width: 640px) {
       .topbar { height: 34px; padding: 0 10px; }
       .wrap { padding: 12px 10px 30px; min-height: calc(100vh - 34px); }
@@ -397,7 +398,7 @@
       .search select { width: 100%; }
       .search button { padding: 10px 14px; flex: 1 1 auto; }
 
-      /* B廕τg 19 c廙: gi廙?cu廙 ngang, ch廙?nh廙?hn cho ?廙?c?ng */
+      /* Bảng 19 cột: giữ cuộn ngang, chữ nhỏ hơn cho đỡ căng */
       table { min-width: 1240px; font-size: 10.5px; }
       thead tr.d th { font-size: 10px; }
     }
@@ -407,26 +408,26 @@
 <body>
   <div class="topbar">
     <button class="burger" onclick="toggleMenu()" title="Menu">&#9776;</button>
-    <b>Tra T穫m Chi Ti廕篙</b>
+    <b>Tra Tìm Chi Tiết</b>
   </div>
   <div class="wrap">
     <div class="card">
-      <!-- ?i廙 ki廙 tra t穫m: gi廙g UI Tra T穫m Theo T廙g -->
+      <!-- Điều kiện tra tìm: giống UI Tra Tìm Theo Tổng -->
       <form class="search" method="GET">
         <div class="fld">
-          <label>M瓊 CP</label>
+          <label>Mã CP</label>
           <input name="ma" value="{{ ma }}" placeholder="VD: TCB">
         </div>
         <div class="fld">
-          <label>S廙?c廙?phi廕簑 c簷n l廕【</label>
+          <label>Số cổ phiếu còn lại</label>
           <select name="sl">
-            <option value="ALL" {% if sl != 'GT0' and sl != 'EQ0' %}selected{% endif %}>To?n b廙?/option>
-            <option value="GT0" {% if sl == 'GT0' %}selected{% endif %}>S廙?l廙τg &gt; 0</option>
-            <option value="EQ0" {% if sl == 'EQ0' %}selected{% endif %}>S廙?l廙τg = 0</option>
+            <option value="ALL" {% if sl != 'GT0' and sl != 'EQ0' %}selected{% endif %}>Toàn bộ</option>
+            <option value="GT0" {% if sl == 'GT0' %}selected{% endif %}>Số lượng &gt; 0</option>
+            <option value="EQ0" {% if sl == 'EQ0' %}selected{% endif %}>Số lượng = 0</option>
           </select>
         </div>
-        <button type="submit">?? T穫m</button>
-        <button type="button" class="clear" onclick="location.href='/chitiet'">?完 X籀a l廙</button>
+        <button type="submit">🔍 Tìm</button>
+        <button type="button" class="clear" onclick="location.href='/chitiet'">🧹 Xóa lọc</button>
       </form>
       {% if rows %}
       <div class="tbl-wrap">
@@ -440,36 +441,36 @@
             <col class="col-even"><col class="col-even">
           </colgroup>
           <thead>
-            <!-- T廕吵g 1: nh籀m c廙, m?u ?廕衫 ch廙?tr廕疸g -->
+            <!-- Tầng 1: nhóm cột, màu đậm chữ trắng -->
             <tr class="g">
-              <th class="g-blue c-ma" rowspan="2">M瓊 CP</th>
-              <th class="g-blue" rowspan="2">T廙g Ti廙<br>MUA</th>
-              <th class="g-orange" colspan="2">T廙g Ti廙 B?N</th>
-              <th class="g-green" rowspan="2">L瓊i/L廙?/th>
-              <th class="g-pink" colspan="4">S廙?Ti廙 C簷n L廕【</th>
-              <th class="g-purple" colspan="2">T廙?Su廕另 Sinh L廙 (%)</th>
-              <th class="g-blue" colspan="3">GIAO D廙H MUA</th>
-              <th class="g-orange" colspan="3">GIAO D廙H B?N</th>
-              <th class="g-teal" colspan="2">C廙?T廙每</th>
+              <th class="g-blue c-ma" rowspan="2">Mã CP</th>
+              <th class="g-blue" rowspan="2">Tổng Tiền<br>MUA</th>
+              <th class="g-orange" colspan="2">Tổng Tiền BÁN</th>
+              <th class="g-green" rowspan="2">Lãi/Lỗ</th>
+              <th class="g-pink" colspan="4">Số Tiền Còn Lại</th>
+              <th class="g-purple" colspan="2">Tỷ Suất Sinh Lời (%)</th>
+              <th class="g-blue" colspan="3">GIAO DỊCH MUA</th>
+              <th class="g-orange" colspan="3">GIAO DỊCH BÁN</th>
+              <th class="g-teal" colspan="2">CỔ TỨC</th>
             </tr>
-            <!-- T廕吵g 2: t礙n c廙 con, m?u nh廕﹀ -->
+            <!-- Tầng 2: tên cột con, màu nhạt -->
             <tr class="d">
-              <th class="d-orange">Theo Gi獺 <br>MUA</th>
-              <th class="d-orange">Theo Gi獺 <br> B?N + C.T廙每</th>
-              <th class="d-pink">S廙?CP<br>C簷n L廕【</th>
-              <th class="d-pink">C璽n H簷a V廙</th>
-              <th class="d-pink">Gi獺 Online</th>
-              <th class="d-pink">Th廙帷 T廕?/th>
-              <th class="d-purple">% L瓊i/L廙??瓊<br>B獺n</th>
-              <th class="d-purple">% L瓊i/L廙?T廕《<br>T穩nh (Gi獺<br>Online)</th>
-              <th class="d-blue">T廙g SL<br>MUA</th>
-              <th class="d-blue">Gi獺 MUA<br>T.B穫nh</th>
-              <th class="d-blue">T廙g<br>Thu/Ph穩</th>
-              <th class="d-orange">T廙g SL<br>B?N</th>
-              <th class="d-orange">Gi獺 B?N<br>T.B穫nh</th>
-              <th class="d-orange">T廙g<br>Thu/Ph穩</th>
-              <th class="d-teal">SL C廙?br>T廙妾</th>
-              <th class="d-teal">T.Ti廙<br>C.T廙妾</th>
+              <th class="d-orange">Theo Giá <br>MUA</th>
+              <th class="d-orange">Theo Giá <br> BÁN + C.TỨC</th>
+              <th class="d-pink">Số CP<br>Còn Lại</th>
+              <th class="d-pink">Cân Hòa Vốn</th>
+              <th class="d-pink">Giá Online</th>
+              <th class="d-pink">Thực Tế</th>
+              <th class="d-purple">% Lãi/Lỗ Đã<br>Bán</th>
+              <th class="d-purple">% Lãi/Lỗ Tạm<br>Tính (Giá<br>Online)</th>
+              <th class="d-blue">Tổng SL<br>MUA</th>
+              <th class="d-blue">Giá MUA<br>T.Bình</th>
+              <th class="d-blue">Tổng<br>Thu/Phí</th>
+              <th class="d-orange">Tổng SL<br>BÁN</th>
+              <th class="d-orange">Giá BÁN<br>T.Bình</th>
+              <th class="d-orange">Tổng<br>Thu/Phí</th>
+              <th class="d-teal">SL Cổ<br>Tức</th>
+              <th class="d-teal">T.Tiền<br>C.Tức</th>
             </tr>
           </thead>
           <tbody>
@@ -490,26 +491,26 @@
             {% endfor %}
           </tbody>
           <tfoot>
-            <!-- H?ng 1: gi廕ξ th穩ch to獺n -->
+            <!-- Hàng 1: giải thích toán -->
             <tr>
-              <td class="f-label" rowspan="3">?i廙<br>gi廕ξ<br>th穩ch<br>to獺n</td>
-              <td>= (T廙g SL Mua * Gi獺 Mua T.B穫nh) + Thu廕?Ph穩</td>
-              <td>= (T廙g SL B獺n * Gi獺 Mua T.B穫nh) + (Thu廕?Ph穩 * T廙g SL B獺n / T廙g SL Mua)</td>
-              <td>= (S.L廙τg B獺n * Gi獺 B獺n T.B穫nh) - Thu廕?Ph穩 + T.Ti廙 C.T廙妾</td>
-              <td>= (T廙g Ti廙 B?N Theo Gi獺 B?N + C.T廙每) - T廙g Ti廙 B?N Theo Gi獺 MUA</td>
+              <td class="f-label" rowspan="3">Điền<br>giải<br>thích<br>toán</td>
+              <td>= (Tổng SL Mua * Giá Mua T.Bình) + Thuế/Phí</td>
+              <td>= (Tổng SL Bán * Giá Mua T.Bình) + (Thuế/Phí * Tổng SL Bán / Tổng SL Mua)</td>
+              <td>= (S.Lượng Bán * Giá Bán T.Bình) - Thuế/Phí + T.Tiền C.Tức</td>
+              <td>= (Tổng Tiền BÁN Theo Giá BÁN + C.TỨC) - Tổng Tiền BÁN Theo Giá MUA</td>
               <td></td>
-              <td>S廙?CP C簷n L廕【 * Gi獺 MUA Trung B穫nh</td>
-              <td>Gi獺 ?籀ng c廙苔 h繫m nay (vnstock)</td>
-              <td>S廙?CP C簷n L廕【 * Gi獺 Online</td>
-              <td>= (L瓊i/L廙? / (T廙g Ti廙 B?N Theo Gi獺 MUA)</td>
-                <td>= (Gi獺 Online - Gi獺 Mua Trung B穫nh) / Gi獺 Mua Trung B穫nh</td>
+              <td>Số CP Còn Lại * Giá MUA Trung Bình</td>
+              <td>Giá đóng cửa hôm nay (vnstock)</td>
+              <td>Số CP Còn Lại * Giá Online</td>
+              <td>= (Lãi/Lỗ) / (Tổng Tiền BÁN Theo Giá MUA)</td>
+                <td>= (Giá Online - Giá Mua Trung Bình) / Giá Mua Trung Bình</td>
 
               <td></td>
               <td></td>
-              <td>SUM(Thu廕?Ph穩 c廙吧 t廙南g l廙h MUA)</td>
+              <td>SUM(Thuế/Phí của từng lệnh MUA)</td>
               <td></td>
               <td></td>
-              <td>SUM(Thu廕?Ph穩 c廙吧 t廙南g l廙h B?N)</td>
+              <td>SUM(Thuế/Phí của từng lệnh BÁN)</td>
               <td></td>
               <td></td>
             </tr>
@@ -517,18 +518,18 @@
         </table>
       </div>
       {% else %}
-      <div class="empty">Kh繫ng c籀 d廙?li廙 chi ti廕篙{% if ma %} cho m瓊 {{ ma }}{% endif %}{% if sl == 'GT0' %} v廙 s廙?l廙τg &gt; 0{% elif sl == 'EQ0' %} v廙 s廙?l廙τg = 0{% endif %}.</div>
+      <div class="empty">Không có dữ liệu chi tiết{% if ma %} cho mã {{ ma }}{% endif %}{% if sl == 'GT0' %} với số lượng &gt; 0{% elif sl == 'EQ0' %} với số lượng = 0{% endif %}.</div>
       {% endif %}
     </div>
   </div>
-  <!-- Tooltip comment c廙吧 c廙 khi r礙 chu廙 (ki廙 comment Excel) -->
+  <!-- Tooltip comment của cột khi rê chuột (kiểu comment Excel) -->
   <div id="colComment" style="
         display:none; position:fixed; z-index:9999; max-width:340px;
         background:#fff9c4; color:#2d3436; border:1px solid #f0c000;
         padding:10px 14px; border-radius:6px;
         font-size:13px; line-height:1.5; box-shadow:0 4px 16px rgba(0,0,0,.35);
         pointer-events:none;"><b id="colCommentTitle"></b><br><span id="colCommentBody"></span></div>
-  <!-- Menu 3 g廕︷h -->
+  <!-- Menu 3 gạch -->
   <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
   <nav class="menu" id="menu">
     <div class="mtitle">MENU</div>
@@ -555,7 +556,7 @@
   // Neu dang chay trong iframe cua trang cha -> an burger + menu rieng
   if (window.parent !== window) document.body.classList.add('in-tab');
 
-  /* --- R礙 chu廙 v?o 繫/c廙 -> hi廙 th廙?tooltip comment (l廕句 t廙?tfoot "?i廙 gi廕ξ th穩ch to獺n") --- */
+  /* --- Rê chuột vào ô/cột -> hiển thị tooltip comment (lấy từ tfoot "Điền giải thích toán") --- */
   (function () {
     var tip    = document.getElementById('colComment');
     var tTitle = document.getElementById('colCommentTitle');
@@ -565,7 +566,7 @@
     function cellText(el) { return el ? el.innerText.replace(/\s+/g, ' ').trim() : ''; }
     function hide() { tip.style.display = 'none'; }
 
-    // C獺c c廙 b廙?chi廕禦 b廙 rowspan t廙?c獺c h?ng TR?N trong c羅ng section
+    // Các cột bị chiếm bởi rowspan từ các hàng TRÊN trong cùng section
     function occupiedCols(rowIdx, section) {
       var occ = [];
       var rows = section.rows;
@@ -577,10 +578,10 @@
           c += cell.colSpan || 1;
         }
       }
-      return occ;   // danh s獺ch t?ng d廕吵 c獺c ch廙?s廙?c廙 b廙?chi廕禦
+      return occ;   // danh sách tăng dần các chỉ số cột bị chiếm
     }
 
-    // Ch廙?s廙?c廙 TH廕曷 trong l廙 b廕τg (0-based, t穩nh c廕?colspan + rowspan)
+    // Chỉ số cột THẬT trong lưới bảng (0-based, tính cả colspan + rowspan)
     function gridColIndex(cell) {
       var section = cell.parentElement.parentElement;
       var row = cell.parentElement;
@@ -589,14 +590,14 @@
       var col = 0, oi = 0;
       for (var j = 0; j < row.cells.length; j++) {
         var c = row.cells[j];
-        while (oi < occ.length && occ[oi] === col) { col++; oi++; }   // b廙?qua c廙 rowspan
+        while (oi < occ.length && occ[oi] === col) { col++; oi++; }   // bỏ qua cột rowspan
         if (c === cell) return col;
         col += c.colSpan || 1;
       }
       return col;
     }
 
-    // B廕τ ?廙? c廙 th廕負 -> t礙n (t廙?h?ng ti礙u ?廙? tr廕ξ c廕?colspan)
+    // Bản đồ: cột thật -> tên (từ hàng tiêu đề, trải cả colspan)
     function buildNameMap(sel) {
       var map = {};
       if (!table) return map;
@@ -611,34 +612,35 @@
       return map;
     }
 
-    var dNames = buildNameMap('thead tr.d');   // t礙n c廙 con
-    var gNames = buildNameMap('thead tr.g');   // t礙n nh籀m (fallback)
+    var dNames = buildNameMap('thead tr.d');   // tên cột con
+    var gNames = buildNameMap('thead tr.g');   // tên nhóm (fallback)
     var fRow   = table ? table.querySelector('tfoot tr') : null;
 
-    // C獺c c廙 KH?NG tooltip: T廙g Ti廙 B?N (c廙 2-3), T廙?Su廕另 Sinh L廙 (c廙 9-10)
+    // Các cột KHÔNG tooltip: Tổng Tiền BÁN (cột 2-3), Tỷ Suất Sinh Lời (cột 9-10)
     var skipCols = [2, 3, 9, 10];
 
     function show(cell) {
       if (!table || !table.contains(cell)) { hide(); return; }
-      if (cell.closest('tfoot')) { hide(); return; }    // kh繫ng tooltip tr礙n v羅ng gi廕ξ th穩ch
-      // Ti礙u ?廙?nh籀m t廕吵g 1: ch廙?b廙?qua c獺c 繫 NH?M (colspan > 1),
-      // c獺c ti礙u ?廙??n c廙 (T廙g Ti廙 MUA, L瓊i/L廙? M瓊 CP) v廕南 c籀 tooltip
+      if (cell.closest('tfoot')) { hide(); return; }    // không tooltip trên vùng giải thích
+      // Tiêu đề nhóm tầng 1: chỉ bỏ qua các ô NHÓM (colspan > 1),
+      // các tiêu đề đơn cột (Tổng Tiền MUA, Lãi/Lỗ, Mã CP) vẫn có tooltip
       var gTh = cell.closest('thead tr.g');
       if (gTh && (gTh.colSpan || 1) > 1) { hide(); return; }
 
       var colIdx = gridColIndex(cell);
-      if (skipCols.indexOf(colIdx) !== -1) { hide(); return; }  // c廙 b廙?lo廕【 tr廙?
-      // Comment tng 廙姊g: fRow.cells[0] l? nh瓊n (c廙 0), c繫ng th廙妾 c廙 n = cells[n]
+      if (skipCols.indexOf(colIdx) !== -1) { hide(); return; }  // cột bị loại trừ
+
+      // Comment tương ứng: fRow.cells[0] là nhãn (cột 0), công thức cột n = cells[n]
       var comment = fRow && fRow.cells[colIdx]
                     ? fRow.cells[colIdx].innerText.replace(/\s+/g, ' ').trim() : '';
-      if (!comment) { hide(); return; }                 // c廙 kh繫ng c籀 c繫ng th廙妾
+      if (!comment) { hide(); return; }                 // cột không có công thức
 
       var name = dNames[colIdx] || gNames[colIdx] || cellText(cell);
       tTitle.textContent = name;
       tBody.textContent = comment;
       tip.style.display = 'block';
 
-      // V廙?tr穩 fixed theo viewport, kh繫ng tr?n m?n h穫nh
+      // Vị trí fixed theo viewport, không tràn màn hình
       var r = cell.getBoundingClientRect();
       var x = Math.min(r.left, document.documentElement.clientWidth - 360);
       var y = Math.min(r.bottom + 6, window.innerHeight - 20);
@@ -656,9 +658,9 @@
   })();
 </script>
 <style>
-  /* An d簷ng gi廕ξ th穩ch to獺n 廙?footer ??v廕南 gi廙??廙?tooltip l廕句 c繫ng th廙妾 */
+  /* An dòng giải thích toán ở footer — vẫn giữ để tooltip lấy công thức */
   table tfoot { display: none; }
-  /* ? c籀 ghi ch繳: con tr廙?help nh 繫 c籀 comment trong Excel */
+  /* Ô có ghi chú: con trỏ help như ô có comment trong Excel */
   table td, table thead th { cursor: help; }
 </style>
 </html>

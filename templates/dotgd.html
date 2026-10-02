@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thi廕篙 L廕計 M瓊 ?廙ㄅ ??INVEST</title>
+<title>Thiết Lập Mã Đợt — INVEST</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='flatpickr.min.css') }}">
 <style>
   * { box-sizing: border-box; }
@@ -91,7 +91,7 @@
   .menu-overlay.show { display: block; }
   body.in-tab .burger, body.in-tab .menu, body.in-tab .menu-overlay { display: none !important; }
 
-  /* ===== Responsive: ?i廙 tho廕【 / m?n h廕雷 ===== */
+  /* ===== Responsive: điện thoại / màn hẹp ===== */
   @media (max-width: 640px) {
     .topbar { height: 34px; padding: 0 10px; }
     .topbar .title { font-size: 15px; }
@@ -120,28 +120,28 @@
 <body>
   <div class="topbar">
     <button class="burger" onclick="toggleMenu()" title="Menu">&#9776;</button>
-    <span class="title">Thi廕篙 L廕計 M瓊 ?廙ㄅ</span>
+    <span class="title">Thiết Lập Mã Đợt</span>
   </div>
 
   <div class="wrap">
     <form class="search" id="fSearch" method="GET" action="/dotgd">
-      <div class="fld"><label>M瓊 CP</label><input id="s-ma" name="ma" value="{{ ma }}" placeholder="VD: TCB"></div>
-      <button type="submit">?? T穫m</button>
-      <button type="button" class="clear" onclick="xoaLoc()">?完 X籀a l廙</button>
+      <div class="fld"><label>Mã CP</label><input id="s-ma" name="ma" value="{{ ma }}" placeholder="VD: TCB"></div>
+      <button type="submit">🔍 Tìm</button>
+      <button type="button" class="clear" onclick="xoaLoc()">🧹 Xóa lọc</button>
     </form>
 
     <div class="toolbar">
-      <button class="btn-add" id="btnAdd" title="Th礙m m廙" onclick="themMoi()">??/button>
-      <button class="btn-edit" id="btnEdit" title="S廙苔" onclick="suaDong()">??</button>
-      <button class="btn-del" id="btnDel" title="X籀a" onclick="xoaDong()">??儭?/button>
-      <button class="iconbtn ic-cancel" id="btnCancel" title="H廙囤" onclick="huyForm()">??/button>
-      <button class="iconbtn ic-save" id="btnSave" title="Lu" onclick="luu()">?</button>
+      <button class="btn-add" id="btnAdd" title="Thêm mới" onclick="themMoi()">➕</button>
+      <button class="btn-edit" id="btnEdit" title="Sửa" onclick="suaDong()">✏️</button>
+      <button class="btn-del" id="btnDel" title="Xóa" onclick="xoaDong()">🗑️</button>
+      <button class="iconbtn ic-cancel" id="btnCancel" title="Hủy" onclick="huyForm()">✖</button>
+      <button class="iconbtn ic-save" id="btnSave" title="Lưu" onclick="luu()">💾</button>
     </div>
 
     <div class="tbl-holder">
       <table id="tbl">
         <thead>
-          <tr><th>#</th><th>M瓊 ?廙ㄅ</th><th>M瓊 CP</th><th>Ng?y B廕眩 ?廕吟</th><th>Ng?y K廕篙 Th繳c</th></tr>
+          <tr><th>#</th><th>Mã Đợt</th><th>Mã CP</th><th>Ngày Bắt Đầu</th><th>Ngày Kết Thúc</th></tr>
         </thead>
         <tbody>
           {% for r in rows %}
@@ -156,33 +156,34 @@
           </tr>
           {% endfor %}
           {% if not rows %}
-          <tr><td colspan="5" class="empty">Cha c籀 ?廙ㄅ giao d廙h n?o{% if ma %} cho m瓊 {{ ma }}{% endif %}. Nh廕叩 <b>??Th礙m</b> ?廙?thi廕篙 l廕計.</td></tr>
+          <tr><td colspan="5" class="empty">Chưa có đợt giao dịch nào{% if ma %} cho mã {{ ma }}{% endif %}. Nhấn <b>➕ Thêm</b> để thiết lập.</td></tr>
           {% endif %}
         </tbody>
       </table>
     </div>
 
     <div class="note">
-      <b>Quy 廙:</b> ?廙ㄅ ?ang m廙?= <b>Ng?y K廕篙 Th繳c ?廙?tr廙g</b>. M廙 M瓊 CP n礙n c籀 ?繳ng 1 ?廙ㄅ ?ang m廙???      c獺c menu Ghi Nh廕要 (MUA/B?N/C廙?T廙每) t廙?l廕句 M瓊 ?廙ㄅ ?ang m廙?c廙吧 m瓊 CP t廙?b廕τg n?y.
-      ?籀ng ?廙ㄅ b廕彫g c獺ch nh廕計 Ng?y K廕篙 Th繳c cho d簷ng ?籀.
+      <b>Quy ước:</b> Đợt đang mở = <b>Ngày Kết Thúc để trống</b>. Mỗi Mã CP nên có đúng 1 đợt đang mở —
+      các menu Ghi Nhận (MUA/BÁN/CỔ TỨC) tự lấy Mã Đợt đang mở của mã CP từ bảng này.
+      Đóng đợt bằng cách nhập Ngày Kết Thúc cho dòng đó.
     </div>
 
     <div id="msg"></div>
   </div>
 
-  <!-- H廙 tho廕【 x獺c nh廕要 -->
+  <!-- Hộp thoại xác nhận -->
   <div class="modal-bg" id="modalBg">
     <div class="modal">
-      <div class="ic" id="modalIc">??/div>
+      <div class="ic" id="modalIc">❓</div>
       <div class="msg" id="modalMsg"></div>
       <div class="btns">
-        <button class="m-yes" id="modalYes">?廙g 羸</button>
-        <button class="m-no" id="modalNo">Kh繫ng</button>
+        <button class="m-yes" id="modalYes">Đồng ý</button>
+        <button class="m-no" id="modalNo">Không</button>
       </div>
     </div>
   </div>
 
-  <!-- Menu 3 g廕︷h -->
+  <!-- Menu 3 gạch -->
   <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
   <nav class="menu" id="menu">
     <div class="mtitle">MENU</div>
@@ -252,7 +253,7 @@
       tr.classList.add('editing');
       tr.onclick = null;
       tr.innerHTML = `
-        <td>??/td>
+        <td>•</td>
         <td>${dongInput('madot', data.madot)}</td>
         <td>${dongInput('ma', data.ma)}</td>
         <td>${dongInput('ngaybd', data.ngaybd)}</td>
@@ -277,7 +278,7 @@
 
     function suaDong() {
       if (mode) return;
-      if (!selected) { baoLoi('Vui l簷ng ch廙 m廙 d簷ng ?廙?s廙苔!'); return; }
+      if (!selected) { baoLoi('Vui lòng chọn một dòng để sửa!'); return; }
       mode = 'edit';
       editRow = selected;
       bienThanhNhap(editRow, {
@@ -299,10 +300,10 @@
       if (!editRow) return;
       const v = n => editRow.querySelector(`input[name="${n}"]`).value.trim();
       const madot = v('madot'), ma = v('ma'), ngaybd = v('ngaybd'), ngaykt = v('ngaykt');
-      if (!madot) { baoLoi('Vui l簷ng nh廕計 M瓊 ?廙ㄅ!'); return; }
-      if (!ma)    { baoLoi('Vui l簷ng nh廕計 M瓊 CP!'); return; }
-      if (!/^\d{4}\/\d{2}\/\d{2}$/.test(ngaybd)) { baoLoi('Ng?y B廕眩 ?廕吟 ph廕ξ theo l廙h YYYY/MM/DD!'); return; }
-      if (ngaykt && !/^\d{4}\/\d{2}\/\d{2}$/.test(ngaykt)) { baoLoi('Ng?y K廕篙 Th繳c ph廕ξ theo l廙h YYYY/MM/DD!'); return; }
+      if (!madot) { baoLoi('Vui lòng nhập Mã Đợt!'); return; }
+      if (!ma)    { baoLoi('Vui lòng nhập Mã CP!'); return; }
+      if (!/^\d{4}\/\d{2}\/\d{2}$/.test(ngaybd)) { baoLoi('Ngày Bắt Đầu phải theo lịch YYYY/MM/DD!'); return; }
+      if (ngaykt && !/^\d{4}\/\d{2}\/\d{2}$/.test(ngaykt)) { baoLoi('Ngày Kết Thúc phải theo lịch YYYY/MM/DD!'); return; }
       const body = {
         id: editRow.dataset.id, madot: madot, ma: ma,
         ngaybd: ngaybd, ngaykt: ngaykt,
@@ -312,7 +313,7 @@
         body: JSON.stringify(body) });
       const d = await r.json();
       if (d.ok) {
-        // C廙??廙?trang sau khi reload hi廙 th繫ng b獺o lu th?nh c繫ng
+        // Cờ để trang sau khi reload hiện thông báo lưu thành công
         try { sessionStorage.setItem('daLuu', '1'); } catch (e) {}
         location.reload();
       }
@@ -321,8 +322,8 @@
 
     async function xoaDong() {
       if (mode) return;
-      if (!selected) { baoLoi('Vui l簷ng ch廙 m廙 d簷ng ?廙?x籀a!'); return; }
-      const ok = await xacNhan('??儭?, 'B廕》 c籀 ch廕畚 mu廙 x籀a ?廙ㄅ ' + selected.dataset.madot + ' (M瓊 CP ' + selected.dataset.ma + ') kh繫ng?');
+      if (!selected) { baoLoi('Vui lòng chọn một dòng để xóa!'); return; }
+      const ok = await xacNhan('🗑️', 'Bạn có chắc muốn xóa đợt ' + selected.dataset.madot + ' (Mã CP ' + selected.dataset.ma + ') không?');
       if (!ok) return;
       const r = await fetch('/api/dotgd/xoa', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -365,13 +366,13 @@
       setTimeout(() => m.style.display = 'none', 1000);
     }
 
-    // Sau khi lu xong (reload l廕【 trang) -> th繫ng b獺o th?nh c繫ng
+    // Sau khi lưu xong (reload lại trang) -> thông báo thành công
     (function () {
       let daLuu = false;
       try { daLuu = sessionStorage.getItem('daLuu') === '1'; sessionStorage.removeItem('daLuu'); } catch (e) {}
       if (daLuu) {
         const m = document.getElementById('msg');
-        m.style.display = 'block'; m.className = 'ok'; m.textContent = 'D廙?li廙 ?瓊 lu th?nh c繫ng.';
+        m.style.display = 'block'; m.className = 'ok'; m.textContent = 'Dữ liệu đã lưu thành công.';
         setTimeout(() => m.style.display = 'none', 1000);
       }
     })();

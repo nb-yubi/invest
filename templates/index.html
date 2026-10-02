@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>INVEST ???瓊 ??ng nh廕計</title>
+<title>INVEST — Đã đăng nhập</title>
 <style>
   body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background: #f5f6fa; }
   .topbar { background: #0984e3; color: white; height: 34px; display: flex;
@@ -24,7 +24,7 @@
   .content { height: calc(100vh - 34px); color: #2d3436; }
   h1 { font-size: 28px; }
 
-  /* ====== Thanh tab + khung n廙 dung ====== */
+  /* ====== Thanh tab + khung nội dung ====== */
   .tabbar { display: flex; gap: 4px; background: #dfe6e9; padding: 3px 8px 0;
             overflow-x: auto; white-space: nowrap; }
   .tab { display: inline-flex; align-items: center; background: #b2bec3; color: #2d3436;
@@ -37,7 +37,7 @@
                 border: none; background: white; }
   .page-frame.active { display: block; }
 
-  /* ===== Responsive: ?i廙 tho廕【 / m?n h廕雷 ===== */
+  /* ===== Responsive: điện thoại / màn hẹp ===== */
   @media (max-width: 640px) {
     .topbar { height: 34px; padding: 0 10px; }
     .burger { font-size: 24px; padding: 4px 10px; }
@@ -56,7 +56,7 @@
   <div class="topbar">
     <button class="burger" onclick="toggleMenu()" title="Menu">&#9776;</button>
     <span class="brand">INVEST</span>
-    <span class="user">Xin ch?o: {{ user }} &nbsp;|&nbsp; <a href="/logout" style="color:#ffeaa7">??ng xu廕另</a></span>
+    <span class="user">Xin chào: {{ user }} &nbsp;|&nbsp; <a href="/logout" style="color:#ffeaa7">Đăng xuất</a></span>
   </div>
 
   <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
@@ -76,25 +76,25 @@
       document.getElementById('overlay').classList.toggle('show');
     }
 
-    // ====== Qu廕τ l羸 tab trong trang ======
+    // ====== Quản lý tab trong trang ======
     const tabs = [];  // {url, label, id}
 
     function openTab(url, label) {
-      // N廕簑 tab ?瓊 m廙?r廙 -> ch廙?chuy廙 t廙 n籀
+      // Nếu tab đã mở rồi -> chỉ chuyển tới nó
       const existed = tabs.find(t => t.url === url);
       if (existed) { activateTab(existed.id); toggleMenu(); return; }
 
       const id = 'page_' + Date.now() + '_' + Math.floor(Math.random()*1000);
       tabs.push({url, label, id});
 
-      // T廕︽ iframe cho tab m廙
+      // Tạo iframe cho tab mới
       const fr = document.createElement('iframe');
       fr.id = id; fr.className = 'page-frame'; fr.src = url;
       document.getElementById('pages').appendChild(fr);
 
       renderTabs();
       activateTab(id);
-      toggleMenu();  // ?籀ng menu sau khi m廙?tab
+      toggleMenu();  // đóng menu sau khi mở tab
     }
 
     function renderTabs() {
@@ -103,8 +103,8 @@
       tabs.forEach(t => {
         const b = document.createElement('button');
         b.className = 'tab'; b.dataset.target = t.id;
-        b.innerHTML = `${t.label}<span class="close" title="?籀ng tab">?</span>`;
-        // Click th璽n tab -> active; click d廕只 ? -> ?籀ng
+        b.innerHTML = `${t.label}<span class="close" title="Đóng tab">×</span>`;
+        // Click thân tab -> active; click dấu × -> đóng
         b.onclick = e => {
           if (e.target.classList.contains('close')) { closeTab(t.id); }
           else { activateTab(t.id); }
@@ -129,13 +129,13 @@
       const f = document.getElementById(id);
       if (f) f.remove();
       renderTabs();
-      // Active tab k廕?b礙n n廕簑 tab v廙冠 ?籀ng ?ang active
+      // Active tab kế bên nếu tab vừa đóng đang active
       const frames = document.querySelectorAll('.page-frame');
       const anyActive = [...frames].some(f => f.classList.contains('active'));
       if (!anyActive && tabs.length) activateTab(tabs[Math.max(0, i-1)].id);
     }
 
-    // Nh廕要 y礙u c廕吟 m廙?tab t廙?c獺c trang con ch廕『 b礙n trong iframe
+    // Nhận yêu cầu mở tab từ các trang con chạy bên trong iframe
     window.addEventListener('message', e => {
       if (e.data && e.data.type === 'open-tab') openTab(e.data.url, e.data.label);
     });

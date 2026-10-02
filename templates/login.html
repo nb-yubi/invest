@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>??ng nh廕計 ??INVEST</title>
+<title>Đăng nhập — INVEST</title>
 <style>
   body { font-family: 'Segoe UI', Arial, sans-serif; background: #f5f6fa; margin: 0;
          display: flex; align-items: center; justify-content: center; height: 100vh; }
@@ -20,7 +20,7 @@
   .error { background: #ffe3e3; color: #c0392b; border: 1px solid #f5b7b1;
            padding: 10px; border-radius: 6px; margin-bottom: 10px; font-size: 14px; }
 
-  /* ===== Responsive: ?i廙 tho廕【 ===== */
+  /* ===== Responsive: điện thoại ===== */
   @media (max-width: 480px) {
     .card { width: 100%; max-width: none; margin: 0 12px; padding: 28px 22px; }
   }
@@ -31,11 +31,11 @@
     <h1>INVEST</h1>
     {% if error %}<div class="error">{{ error }}</div>{% endif %}
     <form method="POST">
-      <label for="taikhoan">T?i Kho廕τ:</label>
+      <label for="taikhoan">Tài Khoản:</label>
       <input type="text" id="taikhoan" name="taikhoan" value="pb.ngocbich" autofocus required>
-      <label for="matma">M廕負 M瓊:</label>
+      <label for="matma">Mật Mã:</label>
       <input type="password" id="matma" name="matma" value="bich123" required>
-      <button type="submit">??ng nh廕計</button>
+      <button type="submit">Đăng nhập</button>
     </form>
   </div>
 </body>
