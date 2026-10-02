@@ -312,7 +312,11 @@
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body) });
       const d = await r.json();
-      if (d.ok) { location.reload(); }
+      if (d.ok) {
+        // Cờ để trang sau khi reload hiện thông báo lưu thành công
+        try { sessionStorage.setItem('daLuu', '1'); } catch (e) {}
+        location.reload();
+      }
       else baoLoi(d.error);
     }
 
@@ -361,6 +365,17 @@
       m.style.display = 'block'; m.className = 'err'; m.textContent = text;
       setTimeout(() => m.style.display = 'none', 5000);
     }
+
+    // Sau khi lưu xong (reload lại trang) -> thông báo thành công
+    (function () {
+      let daLuu = false;
+      try { daLuu = sessionStorage.getItem('daLuu') === '1'; sessionStorage.removeItem('daLuu'); } catch (e) {}
+      if (daLuu) {
+        const m = document.getElementById('msg');
+        m.style.display = 'block'; m.className = 'ok'; m.textContent = 'Dữ liệu đã lưu thành công.';
+        setTimeout(() => m.style.display = 'none', 5000);
+      }
+    })();
     document.addEventListener('DOMContentLoaded', khoiTaoLich);
   </script>
   <script src="{{ url_for('static', filename='flatpickr.min.js') }}"></script>
