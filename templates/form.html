@@ -56,11 +56,11 @@
            overflow: hidden; text-overflow: ellipsis; }
   th:first-child, td:first-child { width: 45px; }
   th { background: #0984e3; color: white; }
-  td input { width: 100%; max-width: 160px; padding: 6px; border: 1px solid #74b9e3; border-radius: 4px;
+  td input { width: 100%; max-width: none; padding: 6px; border: 1px solid #74b9e3; border-radius: 4px;
              font-size: 14px; text-align: center; }
   td input[name="ma"] { text-transform: uppercase; }
-  td input[name="ngay"] { width: 120px; }
-  td input[type="date"] { width: 145px; }
+  td input[name="ngay"] { width: 100%; }
+  td input[type="date"] { width: 100%; }
   td input[name="thanhtien"], td input:read-only.tt { background: #eef3f7; color: #555; }
   tbody tr { cursor: pointer; }
   tbody tr:nth-child(even) { background: #f7f9fc; }
@@ -129,7 +129,6 @@
 
     /* Bảng: cuộn ngang, chữ hơi nhỏ cho vừa nhiều cột */
     table { font-size: 13px; }
-    td input { max-width: 130px; }
 
     .modal { padding: 20px 16px; margin: 0 14px; max-width: none; }
     .modal .btns button { flex: 1; padding: 12px 10px; }
@@ -359,7 +358,7 @@
       if (name === 'phi') {
         // AUTO_PHI: ô Phí readonly — hệ thống tự tính theo bảng CHIPHI
         return `<input name="phi" value="${val ?? ''}"${AUTO_PHI ? ' readonly' : ''}
-                 style="text-align:right;width:110px${AUTO_PHI ? ';background:#eef3f7;color:#555' : ''}">`;
+                 style="text-align:right;width:100%;max-width:none${AUTO_PHI ? ';background:#eef3f7;color:#555' : ''}">`;
       }
       if (name === 'kholuong' || name === 'gia') {
         return `<input name="${name}" value="${val ?? ''}" oninput="dinhDangO(this)"
@@ -368,7 +367,7 @@
       if (name === 'madot') {
         // Mã Đợt: hệ thống tự lấy từ bảng DOTGD (đợt còn mở) — không cho nhập
         return `<input name="madot" readonly value="${val ?? ''}"
-                 style="text-align:left;background:#eef3f7;color:#555;width:150px;min-width:150px">`;
+                 style="text-align:left;background:#eef3f7;color:#555;width:100%;max-width:none;min-width:0">`;
       }
       return `<input name="${name}" value="${val ?? ''}">`;
     }
@@ -385,7 +384,7 @@
         <td>${dongInput('ngay', data.ngay)}</td>
         <td>${dongInput('kholuong', data.kholuong)}</td>
         <td>${dongInput('gia', data.gia)}</td>
-        <td class="money"><input name="thanhtien" value="0" style="width:120px;text-align:right"
+        <td class="money"><input name="thanhtien" value="0" style="width:100%;max-width:none;text-align:right"
                  title="Tổng Tiền Cổ Tức = Khối Lượng * Giá/Cổ Tức. Tự tính khi đã nhập Khối Lượng; nếu Khối Lượng để trống thì nhập tay"></td>
         <td>${dongInput('madot', data.madot)}</td>`;
       tr.querySelector('input[name="thanhtien"]').style.background = '#eef3f7';
@@ -397,8 +396,8 @@
         <td>${dongInput('kholuong', data.kholuong)}</td>
         <td>${dongInput('gia', data.gia)}</td>
         <td>${dongInput('phi', data.phi)}</td>
-        <td class="money"><input name="tongphi" readonly value="0" style="width:120px;text-align:right;background:#eef3f7;color:#555" title="{% if loai == 'BAN' %}Tổng Thuế Phí = Khối lượng * (Phí Thuế/CP){% else %}Tổng Phí = Số Lượng * Phí/CP{% endif %}"></td>
-        <td class="money"><input name="thanhtien" readonly value="0" style="width:120px;text-align:right" title="{% if loai == 'BAN' %}Đã trừ Tổng Thuế Phí{% endif %}"></td>
+        <td class="money"><input name="tongphi" readonly value="0" style="width:100%;max-width:none;text-align:right;background:#eef3f7;color:#555" title="{% if loai == 'BAN' %}Tổng Thuế Phí = Khối lượng * (Phí Thuế/CP){% else %}Tổng Phí = Số Lượng * Phí/CP{% endif %}"></td>
+        <td class="money"><input name="thanhtien" readonly value="0" style="width:100%;max-width:none;text-align:right" title="{% if loai == 'BAN' %}Đã trừ Tổng Thuế Phí{% endif %}"></td>
         <td>${dongInput('madot', data.madot)}</td>`;
       tr.querySelector('input[name="thanhtien"]').style.background = '#eef3f7';
       tr.querySelector('input[name="tongphi"]').style.background = '#eef3f7';
