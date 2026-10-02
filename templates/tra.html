@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tra Tìm Dữ Liệu Giao Dịch — INVEST</title>
+  <title>Tra T穫m D廙?Li廙 Giao D廙h ??INVEST</title>
   <style>
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
@@ -15,7 +15,7 @@
     .topbar {
       background: #0984e3;
       color: white;
-      height: 38px;
+      height: 34px;
       display: flex;
       align-items: center;
       padding: 0 15px;
@@ -33,7 +33,7 @@
     .wrap {
       margin: 0;
       padding: 18px 22px 40px;
-      min-height: calc(100vh - 38px);
+      min-height: calc(100vh - 34px);
       background: #f5f6fa;
     }
 
@@ -44,7 +44,7 @@
       box-shadow: 0 4px 20px rgba(0, 0, 0, .08);
     }
 
-    /* Khối tra tìm — giống form MUA/BÁN */
+    /* Kh廙 tra t穫m ??gi廙g form MUA/B?N */
     .search {
       display: flex;
       flex-wrap: wrap;
@@ -98,7 +98,7 @@
 
     table {
       width: 100%;
-      min-width: 640px;   /* màn hẹp -> cuộn ngang thay vì nén cột */
+      min-width: 640px;   /* m?n h廕雷 -> cu廙 ngang thay v穫 n矇n c廙 */
       border-collapse: collapse;
       font-size: 14px;
     }
@@ -111,11 +111,11 @@
       white-space: nowrap;
     }
 
-    /* Cột chữ: căn trái — LOAI, MA */
+    /* C廙 ch廙? c?n tr獺i ??LOAI, MA */
     th:nth-child(1), td:nth-child(1),
     th:nth-child(2), td:nth-child(2) { text-align: left; }
 
-    /* Cột số: căn phải — KHOILUONG, GIA, PHI, THANHTIEN */
+    /* C廙 s廙? c?n ph廕ξ ??KHOILUONG, GIA, PHI, THANHTIEN */
     th:nth-child(n+4), td:nth-child(n+4) {
       text-align: right;
       font-variant-numeric: tabular-nums;
@@ -139,7 +139,7 @@
       border-radius: 8px;
     }
 
-    /* Menu 3 gạch (☰) dạng drawer */
+    /* Menu 3 g廕︷h (?? d廕》g drawer */
     .burger {
       background: none;
       border: none;
@@ -151,7 +151,7 @@
     .burger:hover { background: rgba(255,255,255,.15); border-radius: 6px; }
     .menu {
       position: fixed;
-      top: 38px; left: 0; bottom: 0;
+      top: 34px; left: 0; bottom: 0;
       width: 260px;
       background: #2d3436;
       transform: translateX(-100%);
@@ -187,16 +187,16 @@
     }
     .menu-overlay.show { display: block; }
 
-    /* Khi chạy bên trong tab của trang cha (iframe): ẩn burger + menu riêng,
-       menu đã có sẵn trên thanh của trang cha */
+    /* Khi ch廕『 b礙n trong tab c廙吧 trang cha (iframe): 廕姊 burger + menu ri礙ng,
+       menu ?瓊 c籀 s廕登 tr礙n thanh c廙吧 trang cha */
     body.in-tab .burger, body.in-tab .menu, body.in-tab .menu-overlay { display: none !important; }
 
-    /* ===== Responsive: điện thoại / màn hẹp ===== */
+    /* ===== Responsive: ?i廙 tho廕【 / m?n h廕雷 ===== */
     @media (max-width: 640px) {
-      .topbar { height: 42px; padding: 0 10px; }
-      .wrap { padding: 12px 10px 30px; min-height: calc(100vh - 42px); }
+      .topbar { height: 34px; padding: 0 10px; }
+      .wrap { padding: 12px 10px 30px; min-height: calc(100vh - 34px); }
       .card { padding: 14px 10px 20px; }
-      .menu { top: 42px; width: 78vw; max-width: 280px; }
+      .menu { top: 34px; width: 78vw; max-width: 280px; }
       .burger { font-size: 20px; padding: 6px 10px; }
 
       .search { padding: 12px; gap: 8px; }
@@ -214,30 +214,30 @@
 <body>
   <div class="topbar">
     <button class="burger" onclick="toggleMenu()" title="Menu">&#9776;</button>
-    <b>Tra Tìm Dữ Liệu Giao Dịch</b>
+    <b>Tra T穫m D廙?Li廙 Giao D廙h</b>
   </div>
   <div class="wrap">
     <div class="card">
-    <!-- Điều kiện tra tìm: Mã CP, Mã Đợt, Từ ngày - Đến ngày -->
+    <!-- ?i廙 ki廙 tra t穫m: M瓊 CP, M瓊 ?廙ㄅ, T廙?ng?y - ?廕積 ng?y -->
     <form class="search" method="GET">
       <div class="fld">
-        <label>Mã CP</label>
+        <label>M瓊 CP</label>
         <input name="ma" value="{{ ma }}" placeholder="VD: TCB">
       </div>
       <div class="fld">
-        <label>Mã Đợt</label>
+        <label>M瓊 ?廙ㄅ</label>
         <input name="madot" value="{{ madot }}" placeholder="VD: D001" style="width:140px">
       </div>
       <div class="fld">
-        <label>Từ ngày</label>
+        <label>T廙?ng?y</label>
         <input id="s-tu" name="tu" value="{{ tu }}" placeholder="YYYY/MM/DD" maxlength="10" class="js-ngay" style="text-transform:none">
       </div>
       <div class="fld">
-        <label>Đến ngày</label>
+        <label>?廕積 ng?y</label>
         <input id="s-den" name="den" value="{{ den }}" placeholder="YYYY/MM/DD" maxlength="10" class="js-ngay" style="text-transform:none">
       </div>
-      <button type="submit">🔍 Tìm</button>
-      <button type="button" class="clear" onclick="location.href='/tra'">🧹 Xóa lọc</button>
+      <button type="submit">?? T穫m</button>
+      <button type="button" class="clear" onclick="location.href='/tra'">?完 X籀a l廙</button>
     </form>
     {% if rows %}
     <div class="tbl-wrap">
@@ -253,11 +253,11 @@
     </table>
     </div>
     {% else %}
-    <div class="empty">Không có dữ liệu giao dịch{% if ma or madot or tu or den %} (đang lọc){% endif %}.</div>
+    <div class="empty">Kh繫ng c籀 d廙?li廙 giao d廙h{% if ma or madot or tu or den %} (?ang l廙){% endif %}.</div>
     {% endif %}
     </div>
   </div>
-  <!-- Menu 3 gạch -->
+  <!-- Menu 3 g廕︷h -->
   <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
   <nav class="menu" id="menu">
     <div class="mtitle">MENU</div>
@@ -273,7 +273,7 @@ function toggleMenu() {
   document.getElementById('menuOverlay').classList.toggle('show');
 }
 
-// Lịch vạn niên cho Từ ngày/Đến ngày (YYYY/MM/DD)
+// L廙h v廕》 ni礙n cho T廙?ng?y/?廕積 ng?y (YYYY/MM/DD)
 function khoiTaoLich() {
   if (typeof flatpickr !== 'function') return;
   document.querySelectorAll('input.js-ngay').forEach(inp => {

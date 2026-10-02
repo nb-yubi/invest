@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ghi nhận {{ loai_hien }} — INVEST</title>
+<title>Ghi nh廕要 {{ loai_hien }} ??INVEST</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='flatpickr.min.css') }}">
 <style>
   * { box-sizing: border-box; }
@@ -14,11 +14,11 @@
   .topbar a.home { color: white; text-decoration: none; font-size: 20px; margin-right: 12px; }
   .topbar .title { font-weight: bold; font-size: 14px; flex: 1; }
 
-  /* Full width — dính sát layout chính */
+  /* Full width ??d穩nh s獺t layout ch穩nh */
   .wrap { width: 100%; margin: 0; background: white; padding: 18px 25px 40px; min-height: calc(100vh - 26px); }
   h1 { color: #2d3436; font-size: 20px; margin: 0 0 15px; }
 
-  /* Khối tra tìm */
+  /* Kh廙 tra t穫m */
   .search { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end;
             background: #f1f7fc; border: 1px solid #bde0fe; border-radius: 10px;
             padding: 14px 18px; margin-bottom: 18px; }
@@ -32,14 +32,14 @@
   .search .clear { background: #b2bec3; }
   .search .clear:hover { background: #9aa5aa; }
 
-  /* Nút chức năng */
+  /* N繳t ch廙妾 n?ng */
   .toolbar { display: flex; gap: 10px; margin-bottom: 14px; }
   .toolbar button { padding: 9px 18px; border: none; border-radius: 6px; font-size: 14px;
                     font-weight: bold; cursor: pointer; color: white; }
   .btn-add { background: #00b894; } .btn-add:hover { background: #00a383; }
   .btn-edit { background: #fdcb6e; color: #2d3436 !important; } .btn-edit:hover { background: #f5b942; }
   .btn-del { background: #d63031; } .btn-del:hover { background: #b82728; }
-  /* Icon Cancel/Save: chỉ hiện khi đang Thêm/Sửa, nút Thêm/Sửa/Xóa lúc đó ẩn đi */
+  /* Icon Cancel/Save: ch廙?hi廙 khi ?ang Th礙m/S廙苔, n繳t Th礙m/S廙苔/X籀a l繳c ?籀 廕姊 ?i */
   .toolbar .iconbtn { border: none; cursor: pointer; display: none;
                       padding: 9px 20px; border-radius: 6px; font-size: 15px;
                       font-weight: bold; color: white; }
@@ -47,10 +47,10 @@
   .ic-cancel { background: #d63031; } .ic-cancel:hover { background: #b82728; }
   .ic-save { background: #00b894; } .ic-save:hover { background: #00a383; }
 
-  /* Bảng */
+  /* B廕τg */
   .tbl-holder { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  /* Các cột bằng nhau, trừ cột '#' giữ nguyên độ rộng.
-     min-width: khi màn hình hẹp -> bảng cuộn ngang thay vì nén/truncate cột */
+  /* C獺c c廙 b廕彫g nhau, tr廙?c廙 '#' gi廙?nguy礙n ?廙?r廙g.
+     min-width: khi m?n h穫nh h廕雷 -> b廕τg cu廙 ngang thay v穫 n矇n/truncate c廙 */
   table { width: 100%; min-width: 1150px; border-collapse: collapse; font-size: 14px; table-layout: fixed; }
   th, td { border: 1px solid #e1e1e1; padding: 7px 9px; text-align: center; white-space: nowrap;
            overflow: hidden; text-overflow: ellipsis; }
@@ -70,7 +70,7 @@
   .money { text-align: right; }
   td.macp { text-align: left; }
   .empty { text-align: center; color: #888; padding: 20px; }
-  /* Modal xác nhận của chương trình */
+  /* Modal x獺c nh廕要 c廙吧 chng tr穫nh */
   .modal-bg { display: none; position: fixed; inset: 0; background: rgba(45,52,54,.45);
               z-index: 100; align-items: center; justify-content: center; }
   .modal-bg.show { display: flex; }
@@ -86,7 +86,7 @@
 
   #msg { margin-top: 15px; padding: 10px 14px; border-radius: 6px; display: none; font-size: 14px; }
 
-  /* Menu 3 gạch (☰) dạng drawer */
+  /* Menu 3 g廕︷h (?? d廕》g drawer */
   .burger { background: none; border: none; color: white; font-size: 16px; cursor: pointer;
             padding: 0 8px; }
   .burger:hover { background: rgba(255,255,255,.15); border-radius: 6px; }
@@ -102,32 +102,32 @@
   .ok { background: #e3f9e5; color: #009432; border: 1px solid #b8e6be; }
   .err { background: #ffe3e3; color: #c0392b; border: 1px solid #f5b7b1; }
 
-  /* Khi chạy bên trong tab của trang cha (iframe): ẩn burger + menu riêng,
-     menu đã có sẵn trên thanh của trang cha */
+  /* Khi ch廕『 b礙n trong tab c廙吧 trang cha (iframe): 廕姊 burger + menu ri礙ng,
+     menu ?瓊 c籀 s廕登 tr礙n thanh c廙吧 trang cha */
   body.in-tab .burger, body.in-tab .menu, body.in-tab .menu-overlay { display: none !important; }
 
-  /* ===== Responsive: điện thoại / màn hẹp ===== */
+  /* ===== Responsive: ?i廙 tho廕【 / m?n h廕雷 ===== */
   @media (max-width: 640px) {
-    .topbar { height: 42px; padding: 0 10px; }
+    .topbar { height: 34px; padding: 0 10px; }
     .topbar a.home { font-size: 18px; }
     .topbar .title { font-size: 15px; }
-    .wrap { padding: 12px 10px 30px; min-height: calc(100vh - 42px); }
-    .menu { top: 42px; width: 78vw; max-width: 280px; }
+    .wrap { padding: 12px 10px 30px; min-height: calc(100vh - 34px); }
+    .menu { top: 34px; width: 78vw; max-width: 280px; }
     .burger { font-size: 20px; padding: 6px 10px; }
 
-    /* Tra tìm: ô nhập chiếm hết hàng, nút to dễ chạm */
+    /* Tra t穫m: 繫 nh廕計 chi廕禦 h廕篙 h?ng, n繳t to d廙?ch廕《 */
     .search { padding: 12px; gap: 8px; }
     .search .fld { flex: 1 1 45%; }
     .search input { width: 100%; }
     .search input#s-ma { width: 100%; }
     .search button { padding: 10px 14px; flex: 1 1 auto; }
 
-    /* Nút chức năng: to hơn cho dễ chạm */
+    /* N繳t ch廙妾 n?ng: to hn cho d廙?ch廕《 */
     .toolbar { gap: 8px; }
     .toolbar button { padding: 10px 18px; }
     .toolbar .iconbtn { padding: 10px 18px; }
 
-    /* Bảng: cuộn ngang, chữ hơi nhỏ cho vừa nhiều cột */
+    /* B廕τg: cu廙 ngang, ch廙?hi nh廙?cho v廙冠 nhi廙 c廙 */
     table { font-size: 13px; }
 
     .modal { padding: 20px 16px; margin: 0 14px; max-width: none; }
@@ -138,47 +138,47 @@
 <body>
   <div class="topbar">
     <button class="burger" onclick="toggleMenu()" title="Menu">&#9776;</button>
-    <span class="title">Ghi Nhận {{ loai_hien }}</span>
+    <span class="title">Ghi Nh廕要 {{ loai_hien }}</span>
   </div>
 
   <div class="wrap">
-    <!-- Tra tìm: theo Mã hoặc Từ ngày - Đến ngày (lịch) -->
+    <!-- Tra t穫m: theo M瓊 ho廕搾 T廙?ng?y - ?廕積 ng?y (l廙h) -->
     <form class="search" id="fSearch" method="GET" action="/form/{{ loai }}">
-      <div class="fld"><label>Mã CP</label><input id="s-ma" name="ma" value="{{ ma }}" placeholder="VD: TCB"></div>
-      <div class="fld"><label>Mã Đợt</label><input id="s-madot" name="madot" value="{{ madot }}" placeholder="VD: D001" style="text-transform:uppercase" maxlength="20"></div>
-      <div class="fld"><label>Từ ngày</label><input type="text" id="s-tu" name="tu" value="{{ tu }}" placeholder="YYYY/MM/DD" maxlength="10" class="js-ngay"></div>
-      <div class="fld"><label>Đến ngày</label><input type="text" id="s-den" name="den" value="{{ den }}" placeholder="YYYY/MM/DD" maxlength="10" class="js-ngay"></div>
-      <button type="submit">🔍 Tìm</button>
-      <button type="button" class="clear" onclick="xoaLoc()">🧹 Xóa lọc</button>
+      <div class="fld"><label>M瓊 CP</label><input id="s-ma" name="ma" value="{{ ma }}" placeholder="VD: TCB"></div>
+      <div class="fld"><label>M瓊 ?廙ㄅ</label><input id="s-madot" name="madot" value="{{ madot }}" placeholder="VD: D001" style="text-transform:uppercase" maxlength="20"></div>
+      <div class="fld"><label>T廙?ng?y</label><input type="text" id="s-tu" name="tu" value="{{ tu }}" placeholder="YYYY/MM/DD" maxlength="10" class="js-ngay"></div>
+      <div class="fld"><label>?廕積 ng?y</label><input type="text" id="s-den" name="den" value="{{ den }}" placeholder="YYYY/MM/DD" maxlength="10" class="js-ngay"></div>
+      <button type="submit">?? T穫m</button>
+      <button type="button" class="clear" onclick="xoaLoc()">?完 X籀a l廙</button>
     </form>
 
     <div class="toolbar">
-      <button class="btn-add" id="btnAdd" title="Thêm mới" onclick="themMoi()">➕</button>
-      <button class="btn-edit" id="btnEdit" title="Sửa" onclick="suaDong()">✏️</button>
-      <button class="btn-del" id="btnDel" title="Xóa" onclick="xoaDong()">🗑️</button>
-      <button class="iconbtn ic-cancel" id="btnCancel" title="Hủy" onclick="huyForm()">✖</button>
-      <button class="iconbtn ic-save" id="btnSave" title="Lưu" onclick="luu()">💾</button>
+      <button class="btn-add" id="btnAdd" title="Th礙m m廙" onclick="themMoi()">??/button>
+      <button class="btn-edit" id="btnEdit" title="S廙苔" onclick="suaDong()">??</button>
+      <button class="btn-del" id="btnDel" title="X籀a" onclick="xoaDong()">??儭?/button>
+      <button class="iconbtn ic-cancel" id="btnCancel" title="H廙囤" onclick="huyForm()">??/button>
+      <button class="iconbtn ic-save" id="btnSave" title="Lu" onclick="luu()">?</button>
     </div>
 
     <div class="tbl-holder">
       <table id="tbl">
         <thead>
         {% if loai == 'BAN' %}
-          <!-- ===== 02.Ghi Nhận BÁN ===== -->
-          <tr><th>#</th><th>Mã CP</th><th>Ngày</th><th>Khối Lượng</th><th>Giá BÁN/CP</th>
-              <th title="Phí Thuế/CP = Phí Giao Dịch + Thuế TNCN">Phí Thuế/CP</th>
-              <th title="Tổng Thuế Phí = Khối lượng * (Phí Thuế BÁN/CP)">Tổng Thuế Phí BÁN</th>
-              <th title="Tổng Tiền đã trừ Tổng Thuế Phí">Tổng Tiền BÁN (Đã Trừ Thuế)</th>
-              <th>Mã Đợt</th></tr>
-        {% elif loai == 'CỔ TỨC' %}
-          <!-- ===== 03.Ghi Nhận CỔ TỨC ===== -->
-          <tr><th>#</th><th>Mã CP</th><th>Ngày</th><th>Khối Lượng</th>
-              <th title="Số tiền cổ tức trên 1 cổ phiếu (user tự nhập)">Giá/Cổ Tức</th>
-              <th title="Tổng Tiền Cổ Tức = Khối Lượng * Giá/Cổ Tức. Tự tính khi đã nhập Khối Lượng; nếu Khối Lượng để trống thì nhập tay">Tổng Tiền Cổ Tức</th>
-              <th>Mã Đợt</th></tr>
+          <!-- ===== 02.Ghi Nh廕要 B?N ===== -->
+          <tr><th>#</th><th>M瓊 CP</th><th>Ng?y</th><th>Kh廙 L廙τg</th><th>Gi獺 B?N/CP</th>
+              <th title="Ph穩 Thu廕?CP = Ph穩 Giao D廙h + Thu廕?TNCN">Ph穩 Thu廕?CP</th>
+              <th title="T廙g Thu廕?Ph穩 = Kh廙 l廙τg * (Ph穩 Thu廕?B?N/CP)">T廙g Thu廕?Ph穩 B?N</th>
+              <th title="T廙g Ti廙 ?瓊 tr廙?T廙g Thu廕?Ph穩">T廙g Ti廙 B?N (?瓊 Tr廙?Thu廕?</th>
+              <th>M瓊 ?廙ㄅ</th></tr>
+        {% elif loai == 'C廙?T廙每' %}
+          <!-- ===== 03.Ghi Nh廕要 C廙?T廙每 ===== -->
+          <tr><th>#</th><th>M瓊 CP</th><th>Ng?y</th><th>Kh廙 L廙τg</th>
+              <th title="S廙?ti廙 c廙?t廙妾 tr礙n 1 c廙?phi廕簑 (user t廙?nh廕計)">Gi獺/C廙?T廙妾</th>
+              <th title="T廙g Ti廙 C廙?T廙妾 = Kh廙 L廙τg * Gi獺/C廙?T廙妾. T廙?t穩nh khi ?瓊 nh廕計 Kh廙 L廙τg; n廕簑 Kh廙 L廙τg ?廙?tr廙g th穫 nh廕計 tay">T廙g Ti廙 C廙?T廙妾</th>
+              <th>M瓊 ?廙ㄅ</th></tr>
         {% else %}
-          <!-- ===== 01.Ghi Nhận MUA ===== -->
-          <tr><th>#</th><th>Mã CP</th><th>Ngày</th><th>Khối Lượng</th><th>Giá MUA/CP</th><th>Phí MUA/CP</th><th>Tổng Phí MUA</th><th>Tổng Tiền (B.Gồm Phí) </th><th>Mã Đợt</th></tr>
+          <!-- ===== 01.Ghi Nh廕要 MUA ===== -->
+          <tr><th>#</th><th>M瓊 CP</th><th>Ng?y</th><th>Kh廙 L廙τg</th><th>Gi獺 MUA/CP</th><th>Ph穩 MUA/CP</th><th>T廙g Ph穩 MUA</th><th>T廙g Ti廙 (B.G廙 Ph穩) </th><th>M瓊 ?廙ㄅ</th></tr>
         {% endif %}
         </thead>
         <tbody>
@@ -191,7 +191,7 @@
             <td>{{ r.ngay }}</td>
             <td class="money">{{ '{:,.0f}'.format(r.kholuong).replace(',', '.') }}</td>
             <td class="money">{{ '{:,.0f}'.format(r.gia).replace(',', '.') }}</td>
-            {% if loai != 'CỔ TỨC' %}
+            {% if loai != 'C廙?T廙每' %}
             <td class="money">{{ '{:,.2f}'.format(r.phi) }}</td>
             <td class="money">{{ '{:,.0f}'.format((r.phi * r.kholuong)|round(0)).replace(',', '.') }}</td>
             {% endif %}
@@ -200,7 +200,7 @@
           </tr>
           {% endfor %}
           {% if not rows %}
-          <tr><td colspan="{{ 7 if loai == 'CỔ TỨC' else 9 }}" class="empty">Không có giao dịch {{ loai }} nào{% if ma or madot or tu or den %} (đang lọc){% endif %}. Nhấn <b>Thêm</b> để ghi nhận mới.</td></tr>
+          <tr><td colspan="{{ 7 if loai == 'C廙?T廙每' else 9 }}" class="empty">Kh繫ng c籀 giao d廙h {{ loai }} n?o{% if ma or madot or tu or den %} (?ang l廙){% endif %}. Nh廕叩 <b>Th礙m</b> ?廙?ghi nh廕要 m廙.</td></tr>
           {% endif %}
         </tbody>
       </table>
@@ -209,7 +209,7 @@
     <div id="msg"></div>
   </div>
 
-  <!-- Menu 3 gạch -->
+  <!-- Menu 3 g廕︷h -->
   <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
   <nav class="menu" id="menu">
     <div class="mtitle">MENU</div>
@@ -218,14 +218,14 @@
     {% endfor %}
   </nav>
 
-  <!-- Hộp thoại xác nhận của chương trình -->
+  <!-- H廙 tho廕【 x獺c nh廕要 c廙吧 chng tr穫nh -->
   <div class="modal-bg" id="modalBg">
     <div class="modal">
-      <div class="ic" id="modalIc">❓</div>
+      <div class="ic" id="modalIc">??/div>
       <div class="msg" id="modalMsg"></div>
       <div class="btns">
-        <button class="m-yes" id="modalYes">Đồng ý</button>
-        <button class="m-no" id="modalNo">Không</button>
+        <button class="m-yes" id="modalYes">?廙g 羸</button>
+        <button class="m-no" id="modalNo">Kh繫ng</button>
       </div>
     </div>
   </div>
@@ -234,15 +234,15 @@
     const LOAI = "{{ loai }}";
     const HOM_NAY = "{{ hom_nay }}";   // YYYY/MM/DD
     {% if auto_phi %}
-    const AUTO_PHI = true;             // Menu MUA/BÁN: Phí tự tính, không cho nhập
-    const PHI_TD = {{ phigd }}, PHI_MG = {{ phimg }}, PHI_THUE_TN = {{ thue }};   // Tỷ lệ từ bảng CHIPHI
+    const AUTO_PHI = true;             // Menu MUA/B?N: Ph穩 t廙?t穩nh, kh繫ng cho nh廕計
+    const PHI_TD = {{ phigd }}, PHI_MG = {{ phimg }}, PHI_THUE_TN = {{ thue }};   // T廙?l廙?t廙?b廕τg CHIPHI
     {% else %}
     const AUTO_PHI = false;
     {% endif %}
     let mode = null;                   // 'add' | 'edit' | null
     let selected = null, editRow = null;
 
-    // ===== Hộp thoại xác nhận của chương trình (thay confirm() của trình duyệt) =====
+    // ===== H廙 tho廕【 x獺c nh廕要 c廙吧 chng tr穫nh (thay confirm() c廙吧 tr穫nh duy廙) =====
     function xacNhan(ic, msg) {
       return new Promise(resolve => {
         document.getElementById('modalIc').textContent = ic;
@@ -260,12 +260,12 @@
       });
     }
 
-    // Đang Thêm/Sửa mà muốn Tìm/Xóa lọc -> hỏi hủy bằng modal của chương trình
+    // ?ang Th礙m/S廙苔 m? mu廙 T穫m/X籀a l廙 -> h廙 h廙囤 b廕彫g modal c廙吧 chng tr穫nh
     async function choPhepTim() {
       if (!mode) return true;
-      const tenTT = mode === 'add' ? 'THÊM MỚI' : 'CHỈNH SỬA';
-      const ok = await xacNhan('❓',
-        `Bạn đang ở trạng thái ${tenTT}.\nDữ liệu chưa lưu sẽ bị mất.\nBạn có muốn hủy để thực hiện tra tìm không?`);
+      const tenTT = mode === 'add' ? 'TH?M M廙' : 'CH廙H S廙括';
+      const ok = await xacNhan('??,
+        `B廕》 ?ang 廙?tr廕》g th獺i ${tenTT}.\nD廙?li廙 cha lu s廕?b廙?m廕另.\nB廕》 c籀 mu廙 h廙囤 ?廙?th廙帷 hi廙 tra t穫m kh繫ng?`);
       if (ok) huyForm();
       return ok;
     }
@@ -289,35 +289,35 @@
       selected = tr;
     }
 
-    // Mở lịch vạn niên (flatpickr): định dạng hiển thị/ghi luôn YYYY/MM/DD
+    // M廙?l廙h v廕》 ni礙n (flatpickr): ?廙h d廕》g hi廙 th廙?ghi lu繫n YYYY/MM/DD
     function khoiTaoLich() {
       if (typeof flatpickr !== 'function') return;
       document.querySelectorAll('input.js-ngay').forEach(inp => {
         if (inp._flatpickr) return;
         flatpickr(inp, {
           dateFormat: 'Y/m/d',
-          allowInput: true,          // cho phép tự nhập tay
+          allowInput: true,          // cho ph矇p t廙?nh廕計 tay
           disableMobile: true,
         });
       });
     }
 
-    // ===== Đọc/định dạng số: dấu '.' = nghìn, thập phân hiếm gặp (45.59) =====
-    // Quy tắc: nhiều dấu '.' hoặc nhóm cuối 3 chữ số -> ngăn cách nghìn; còn lại là thập phân
+    // ===== ?廙/?廙h d廕》g s廙? d廕只 '.' = ngh穫n, th廕計 ph璽n hi廕禦 g廕搆 (45.59) =====
+    // Quy t廕畚: nhi廙 d廕只 '.' ho廕搾 nh籀m cu廙 3 ch廙?s廙?-> ng?n c獺ch ngh穫n; c簷n l廕【 l? th廕計 ph璽n
     function parseSo(str) {
       let s = String(str ?? '').replace(/[^\d.,]/g, '');
       if (!s) return 0;
       if (s.includes(',')) {
-        s = s.replace(/\./g, '').replace(',', '.');   // ',' là thập phân
+        s = s.replace(/\./g, '').replace(',', '.');   // ',' l? th廕計 ph璽n
       } else {
         const p = s.split('.');
-        if (p.length > 2 || (p.length === 2 && p[1].length === 3 && p[0] !== '')) s = p.join('');  // nghìn
+        if (p.length > 2 || (p.length === 2 && p[1].length === 3 && p[0] !== '')) s = p.join('');  // ngh穫n
       }
       const n = parseFloat(s);
       return isNaN(n) ? 0 : n;
     }
     function fmtSo(n) {
-      // 1.000 / 45.59 / 45.594 — nghìn bằng '.', thập phân bằng '.'
+      // 1.000 / 45.59 / 45.594 ??ngh穫n b廕彫g '.', th廕計 ph璽n b廕彫g '.'
       if (Number.isInteger(n)) return n.toLocaleString('en-US').replace(/,/g, '.');
       const [i, d] = n.toFixed(2).split('.');
       const ii = i.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -325,15 +325,15 @@
       return dd ? ii + '.' + dd : ii;
     }
 
-    // Định dạng số nguyên (không số lẻ): 1.000.000 — dùng cho KL, Giá, Tổng Phí, Tổng Tiền
+    // ?廙h d廕》g s廙?nguy礙n (kh繫ng s廙?l廕?: 1.000.000 ??d羅ng cho KL, Gi獺, T廙g Ph穩, T廙g Ti廙
     function fmtNguyen(n) {
       return Math.round(n).toLocaleString('en-US').replace(/,/g, '.');
     }
 
-    // Ô nhập KL/Giá: hiển thị có dấu '.' nghìn, nhưng LUÔN lưu số gốc (chỉ chữ số)
-    // vào dataset.n để tính toán/lưu — không bao giờ đọc lại chuỗi có dấu chấm.
+    // ? nh廕計 KL/Gi獺: hi廙 th廙?c籀 d廕只 '.' ngh穫n, nhng LU?N lu s廙?g廙 (ch廙?ch廙?s廙?
+    // v?o dataset.n ?廙?t穩nh to獺n/lu ??kh繫ng bao gi廙??廙 l廕【 chu廙 c籀 d廕只 ch廕叮.
     function dinhDangO(inp) {
-      const raw = inp.value.replace(/[^\d]/g, '');   // chỉ giữ chữ số
+      const raw = inp.value.replace(/[^\d]/g, '');   // ch廙?gi廙?ch廙?s廙?
       inp.dataset.n = raw;
       if (raw) {
         inp.value = Number(raw).toLocaleString('en-US').replace(/,/g, '.');
@@ -341,7 +341,7 @@
       tinhTien(inp.closest('tr'));
     }
     function giaTriO(tr, name) {
-      // Số gốc của ô nhập (ưu tiên dataset.n — bỏ qua dấu chấm hiển thị)
+      // S廙?g廙 c廙吧 繫 nh廕計 (u ti礙n dataset.n ??b廙?qua d廕只 ch廕叮 hi廙 th廙?
       const el = tr.querySelector(`input[name="${name}"]`);
       return parseSo(el?.dataset?.n || el?.value || '');
     }
@@ -352,11 +352,11 @@
                  oninput="this.value=this.value.toUpperCase()">`;
       }
       if (name === 'ngay') {
-        // Hiển thị/ghi luôn YYYY/MM/DD; click vào mở lịch chọn ngày
+        // Hi廙 th廙?ghi lu繫n YYYY/MM/DD; click v?o m廙?l廙h ch廙 ng?y
         return `<input name="ngay" type="text" class="js-ngay" value="${val ?? ''}" maxlength="10">`;
       }
       if (name === 'phi') {
-        // AUTO_PHI: ô Phí readonly — hệ thống tự tính theo bảng CHIPHI
+        // AUTO_PHI: 繫 Ph穩 readonly ??h廙?th廙g t廙?t穩nh theo b廕τg CHIPHI
         return `<input name="phi" value="${val ?? ''}"${AUTO_PHI ? ' readonly' : ''}
                  style="text-align:right;width:100%;max-width:none${AUTO_PHI ? ';background:#eef3f7;color:#555' : ''}">`;
       }
@@ -365,63 +365,63 @@
                  style="text-align:right">`;
       }
       if (name === 'madot') {
-        // Mã Đợt: hệ thống tự lấy từ bảng DOTGD (đợt còn mở) — không cho nhập
+        // M瓊 ?廙ㄅ: h廙?th廙g t廙?l廕句 t廙?b廕τg DOTGD (?廙ㄅ c簷n m廙? ??kh繫ng cho nh廕計
         return `<input name="madot" readonly value="${val ?? ''}"
                  style="text-align:left;background:#eef3f7;color:#555;width:100%;max-width:none;min-width:0">`;
       }
       return `<input name="${name}" value="${val ?? ''}">`;
     }
 
-    // Chuyển 1 tr thành hàng nhập liệu trực tiếp (inline)
+    // Chuy廙 1 tr th?nh h?ng nh廕計 li廙 tr廙帷 ti廕穆 (inline)
     function bienThanhNhap(tr, data) {
       tr.classList.add('editing');
       tr.onclick = null;
-{% if loai == 'CỔ TỨC' %}
-      // ===== 03.Ghi Nhận CỔ TỨC: 7 cột — bỏ Phí/Tổng Phí =====
+{% if loai == 'C廙?T廙每' %}
+      // ===== 03.Ghi Nh廕要 C廙?T廙每: 7 c廙 ??b廙?Ph穩/T廙g Ph穩 =====
       tr.innerHTML = `
-        <td>•</td>
+        <td>??/td>
         <td>${dongInput('ma', data.ma)}</td>
         <td>${dongInput('ngay', data.ngay)}</td>
         <td>${dongInput('kholuong', data.kholuong)}</td>
         <td>${dongInput('gia', data.gia)}</td>
         <td class="money"><input name="thanhtien" value="0" style="width:100%;max-width:none;text-align:right"
-                 title="Tổng Tiền Cổ Tức = Khối Lượng * Giá/Cổ Tức. Tự tính khi đã nhập Khối Lượng; nếu Khối Lượng để trống thì nhập tay"></td>
+                 title="T廙g Ti廙 C廙?T廙妾 = Kh廙 L廙τg * Gi獺/C廙?T廙妾. T廙?t穩nh khi ?瓊 nh廕計 Kh廙 L廙τg; n廕簑 Kh廙 L廙τg ?廙?tr廙g th穫 nh廕計 tay"></td>
         <td>${dongInput('madot', data.madot)}</td>`;
       tr.querySelector('input[name="thanhtien"]').style.background = '#eef3f7';
 {% else %}
       tr.innerHTML = `
-        <td>•</td>
+        <td>??/td>
         <td>${dongInput('ma', data.ma)}</td>
         <td>${dongInput('ngay', data.ngay)}</td>
         <td>${dongInput('kholuong', data.kholuong)}</td>
         <td>${dongInput('gia', data.gia)}</td>
         <td>${dongInput('phi', data.phi)}</td>
-        <td class="money"><input name="tongphi" readonly value="0" style="width:100%;max-width:none;text-align:right;background:#eef3f7;color:#555" title="{% if loai == 'BAN' %}Tổng Thuế Phí = Khối lượng * (Phí Thuế/CP){% else %}Tổng Phí = Số Lượng * Phí/CP{% endif %}"></td>
-        <td class="money"><input name="thanhtien" readonly value="0" style="width:100%;max-width:none;text-align:right" title="{% if loai == 'BAN' %}Đã trừ Tổng Thuế Phí{% endif %}"></td>
+        <td class="money"><input name="tongphi" readonly value="0" style="width:100%;max-width:none;text-align:right;background:#eef3f7;color:#555" title="{% if loai == 'BAN' %}T廙g Thu廕?Ph穩 = Kh廙 l廙τg * (Ph穩 Thu廕?CP){% else %}T廙g Ph穩 = S廙?L廙τg * Ph穩/CP{% endif %}"></td>
+        <td class="money"><input name="thanhtien" readonly value="0" style="width:100%;max-width:none;text-align:right" title="{% if loai == 'BAN' %}?瓊 tr廙?T廙g Thu廕?Ph穩{% endif %}"></td>
         <td>${dongInput('madot', data.madot)}</td>`;
       tr.querySelector('input[name="thanhtien"]').style.background = '#eef3f7';
       tr.querySelector('input[name="tongphi"]').style.background = '#eef3f7';
 {% endif %}
       const inputs = tr.querySelectorAll('input');
       inputs.forEach(inp => inp.addEventListener('input', () => tinhTien(tr)));
-      // Nhập Mã CP -> tự lấy Mã Đợt đang mở (từ bảng DOTGD)
+      // Nh廕計 M瓊 CP -> t廙?l廕句 M瓊 ?廙ㄅ ?ang m廙?(t廙?b廕τg DOTGD)
       const inpMa = tr.querySelector('input[name="ma"]');
       const inpMadot = tr.querySelector('input[name="madot"]');
       if (inpMadot) {
       inpMa.addEventListener('input', async () => {
         const macp = inpMa.value.trim().toUpperCase();
-        // Chỉ kiểm tra Mã Đợt sau khi user nhập đủ Mã CP (thường 3 ký tự)
+        // Ch廙?ki廙 tra M瓊 ?廙ㄅ sau khi user nh廕計 ?廙?M瓊 CP (th廙g 3 k羸 t廙?
         if (macp.length < 3) { inpMadot.value = ''; inpMadot.title = ''; return; }
-        if (macp === inpMadot.dataset.ma) return;   // đã tra rồi, không gọi lại
+        if (macp === inpMadot.dataset.ma) return;   // ?瓊 tra r廙, kh繫ng g廙 l廕【
         inpMadot.dataset.ma = macp;
         try {
           const r = await fetch('/api/madot?ma=' + encodeURIComponent(macp));
           const d = await r.json();
           inpMadot.value = d.madot || '';
           if (!inpMadot.value) {
-            // Không tìm thấy đợt đang mở -> cảnh báo ngay trên form
-            inpMadot.title = `Mã CP: ${macp} chưa có mã đợt, xin thiết lập, cám ơn!`;
-            baoLoi(`Mã CP: ${macp} chưa có mã đợt, xin thiết lập, cám ơn!`);
+            // Kh繫ng t穫m th廕句 ?廙ㄅ ?ang m廙?-> c廕τh b獺o ngay tr礙n form
+            inpMadot.title = `M瓊 CP: ${macp} cha c籀 m瓊 ?廙ㄅ, xin thi廕篙 l廕計, c獺m n!`;
+            baoLoi(`M瓊 CP: ${macp} cha c籀 m瓊 ?廙ㄅ, xin thi廕篙 l廕計, c獺m n!`);
           } else { inpMadot.title = ''; }
         } catch (e) { inpMadot.value = ''; }
       });
@@ -431,12 +431,12 @@
     }
 
     function toIso(ngay) {
-      // 2026/09/26 -> 2026-09-26 (định dạng mà input[type=date] yêu cầu)
+      // 2026/09/26 -> 2026-09-26 (?廙h d廕》g m? input[type=date] y礙u c廕吟)
       return (ngay || '').replaceAll('/', '-');
     }
 
     function toSlash(iso) {
-      // 2026-09-26 -> 2026/09/26 (định dạng hiển thị/ghi DB)
+      // 2026-09-26 -> 2026/09/26 (?廙h d廕》g hi廙 th廙?ghi DB)
       return (iso || '').replaceAll('-', '/');
     }
 
@@ -445,9 +445,9 @@
       const kl = g('kholuong');
       const gia = g('gia');
       const inpTT = tr.querySelector('input[name="thanhtien"]');
-      if (LOAI === 'CỔ TỨC') {
-        // ===== 03.Ghi Nhận CỔ TỨC: Tổng Tiền = Khối Lượng * Giá/Cổ Tức =====
-        // Có Khối Lượng -> tự tính & KHÓA ô; Khối Lượng trống -> MỞ cho user nhập tay
+      if (LOAI === 'C廙?T廙每') {
+        // ===== 03.Ghi Nh廕要 C廙?T廙每: T廙g Ti廙 = Kh廙 L廙τg * Gi獺/C廙?T廙妾 =====
+        // C籀 Kh廙 L廙τg -> t廙?t穩nh & KH?A 繫; Kh廙 L廙τg tr廙g -> M廙?cho user nh廕計 tay
         if (kl > 0) {
           inpTT.value = fmtNguyen(kl * gia);
           inpTT.readOnly = true;
@@ -462,24 +462,24 @@
       }
       const inpPhi = tr.querySelector('input[name="phi"]');
       if (AUTO_PHI) {
-        // Phí tự tính theo loại GD (server cũng tính lại khi Lưu):
-        //   MUA: Phí/CP = Giá*(PHIGD+PHIMG); BÁN: Phí Thuế/CP = Giá*(PHIGD+THUETNCN)
+        // Ph穩 t廙?t穩nh theo lo廕【 GD (server c觼ng t穩nh l廕【 khi Lu):
+        //   MUA: Ph穩/CP = Gi獺*(PHIGD+PHIMG); B?N: Ph穩 Thu廕?CP = Gi獺*(PHIGD+THUETNCN)
         var tyLe2 = (LOAI === 'BAN') ? PHI_THUE_TN : PHI_MG;
         var phi = gia * (PHI_TD + tyLe2);
-        // Phí là TỶ LỆ % tính ra -> giữ số lẻ; KL/Giá/Tổng chỉ chữ số
+        // Ph穩 l? T廙?L廙?% t穩nh ra -> gi廙?s廙?l廕? KL/Gi獺/T廙g ch廙?ch廙?s廙?
         inpPhi.value = phi.toLocaleString('en-US', {maximumFractionDigits: 2});
       } else {
         var phi = parseSo(inpPhi.value);
       }
-      // Tổng Phí/Tổng Tiền: hiển thị không số lẻ (làm tròn). Phí/CP là tỷ lệ % nên giữ lẻ
+      // T廙g Ph穩/T廙g Ti廙: hi廙 th廙?kh繫ng s廙?l廕?(l?m tr簷n). Ph穩/CP l? t廙?l廙?% n礙n gi廙?l廕?
       const tongPhi = kl * phi;
       tr.querySelector('input[name="tongphi"]').value = fmtNguyen(tongPhi);
-      // Tổng Tiền: MUA = KL*Giá + Tổng Phí; BÁN = KL*Giá − Tổng Thuế Phí (đã trừ thuế)
+      // T廙g Ti廙: MUA = KL*Gi獺 + T廙g Ph穩; B?N = KL*Gi獺 ??T廙g Thu廕?Ph穩 (?瓊 tr廙?thu廕?
       const tt = LOAI === 'BAN' ? (kl * gia - tongPhi) : (kl * gia + tongPhi);
       inpTT.value = fmtNguyen(tt);
     }
 
-    // Thêm mới: 1 dòng trống ngay bên dưới bảng, ngày mặc định = hôm nay
+    // Th礙m m廙: 1 d簷ng tr廙g ngay b礙n d廙 b廕τg, ng?y m廕搾 ?廙h = h繫m nay
     function themMoi() {
       if (mode) return;
       mode = 'add';
@@ -499,7 +499,7 @@
 
     function suaDong() {
       if (mode) return;
-      if (!selected) { baoLoi('Vui lòng chọn một dòng để sửa!'); return; }
+      if (!selected) { baoLoi('Vui l簷ng ch廙 m廙 d簷ng ?廙?s廙苔!'); return; }
       mode = 'edit';
       editRow = selected;
       bienThanhNhap(editRow, {
@@ -518,12 +518,12 @@
     }
 
     async function luu(redirectUrl) {
-      if (typeof redirectUrl !== 'string') redirectUrl = null;  // khi gọi qua onclick thì arg là event
+      if (typeof redirectUrl !== 'string') redirectUrl = null;  // khi g廙 qua onclick th穫 arg l? event
       if (!editRow) return;
       const v = n => editRow.querySelector(`input[name="${n}"]`).value;
-      const ngay = v('ngay').trim();            // luôn ở dạng YYYY/MM/DD
+      const ngay = v('ngay').trim();            // lu繫n 廙?d廕》g YYYY/MM/DD
       if (!/^\d{4}\/\d{2}\/\d{2}$/.test(ngay)) {
-        baoLoi('Vui lòng chọn ngày trên lịch!'); return;
+        baoLoi('Vui l簷ng ch廙 ng?y tr礙n l廙h!'); return;
       }
       const body = {
         loai: LOAI, ma: v('ma'), ngay: ngay,
@@ -537,7 +537,7 @@
         body: JSON.stringify(body) });
       const d = await r.json();
       if (d.ok) {
-        // Cờ để trang sau khi reload hiện thông báo lưu thành công
+        // C廙??廙?trang sau khi reload hi廙 th繫ng b獺o lu th?nh c繫ng
         try { sessionStorage.setItem('daLuu', '1'); } catch (e) {}
         if (redirectUrl) location.href = redirectUrl; else location.reload(); return true;
       }
@@ -546,8 +546,8 @@
 
     async function xoaDong() {
       if (mode) return;
-      if (!selected) { baoLoi('Vui lòng chọn một dòng để xóa!'); return; }
-      const ok = await xacNhan('🗑️', 'Bạn có chắc muốn xóa giao dịch ' + selected.dataset.ma + ' không?');
+      if (!selected) { baoLoi('Vui l簷ng ch廙 m廙 d簷ng ?廙?x籀a!'); return; }
+      const ok = await xacNhan('??儭?, 'B廕》 c籀 ch廕畚 mu廙 x籀a giao d廙h ' + selected.dataset.ma + ' kh繫ng?');
       if (!ok) return;
       const r = await fetch('/api/xoa', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -557,7 +557,7 @@
       else baoLoi(d.error);
     }
 
-    // Chặn submit tra tìm khi đang Thêm/Sửa -> hỏi xác nhận hủy trước
+    // Ch廕搖 submit tra t穫m khi ?ang Th礙m/S廙苔 -> h廙 x獺c nh廕要 h廙囤 tr廙
     document.getElementById('fSearch').addEventListener('submit', async e => {
       if (mode) {
         e.preventDefault();
@@ -565,64 +565,64 @@
       }
     });
 
-    // ===== Menu 3 gạch =====
+    // ===== Menu 3 g廕︷h =====
     function toggleMenu() {
       document.getElementById('menu').classList.toggle('open');
       document.getElementById('menuOverlay').classList.toggle('show');
     }
 
-    // User chọn mục menu: nếu đang Thêm/Sửa -> hỏi có muốn Lưu không trước khi chuyển màn hình
+    // User ch廙 m廙卉 menu: n廕簑 ?ang Th礙m/S廙苔 -> h廙 c籀 mu廙 Lu kh繫ng tr廙 khi chuy廙 m?n h穫nh
     async function chonMenu(url) {
       if (inTab()) {
-        // Đang chạy trong tab của trang cha -> yêu cầu trang cha mở tab mới
+        // ?ang ch廕『 trong tab c廙吧 trang cha -> y礙u c廕吟 trang cha m廙?tab m廙
         if (!mode) { moMenuCha(url); return; }
-        const tenTT = mode === 'add' ? 'THÊM MỚI' : 'CHỈNH SỬA';
-        const ok = await xacNhan('❓',
-          `Bạn đang ở trạng thái ${tenTT}.\nDữ liệu này đang thao tác, bạn có muốn Lưu không?`);
+        const tenTT = mode === 'add' ? 'TH?M M廙' : 'CH廙H S廙括';
+        const ok = await xacNhan('??,
+          `B廕》 ?ang 廙?tr廕》g th獺i ${tenTT}.\nD廙?li廙 n?y ?ang thao t獺c, b廕》 c籀 mu廙 Lu kh繫ng?`);
         if (ok) { const saved = await luu(); if (saved) moMenuCha(url); }
         else moMenuCha(url);
         return;
       }
       if (!mode) { location.href = url; return; }
-      const tenTT = mode === 'add' ? 'THÊM MỚI' : 'CHỈNH SỬA';
-      const ok = await xacNhan('❓',
-        `Bạn đang ở trạng thái ${tenTT}.\nDữ liệu này đang thao tác, bạn có muốn Lưu không?`);
+      const tenTT = mode === 'add' ? 'TH?M M廙' : 'CH廙H S廙括';
+      const ok = await xacNhan('??,
+        `B廕》 ?ang 廙?tr廕》g th獺i ${tenTT}.\nD廙?li廙 n?y ?ang thao t獺c, b廕》 c籀 mu廙 Lu kh繫ng?`);
       if (ok) {
-        const saved = await luu(url);   // Lưu xong mới chuyển; nếu lưu lỗi thì ở lại
+        const saved = await luu(url);   // Lu xong m廙 chuy廙; n廕簑 lu l廙 th穫 廙?l廕【
         if (!saved) return;
       } else {
-        location.href = url;            // Không lưu -> bỏ thao tác, chuyển luôn
+        location.href = url;            // Kh繫ng lu -> b廙?thao t獺c, chuy廙 lu繫n
       }
     }
 
-    // ===== Chạy trong tab của trang cha? =====
+    // ===== Ch廕『 trong tab c廙吧 trang cha? =====
     function inTab() { return window.parent !== window; }
 
-    // Yêu cầu trang cha mở menu dưới dạng tab (hoặc tự chuyển nếu đứng độc lập)
+    // Y礙u c廕吟 trang cha m廙?menu d廙 d廕》g tab (ho廕搾 t廙?chuy廙 n廕簑 ?廙姊g ?廙 l廕計)
     function moMenuCha(url) {
       const lb = document.querySelector('.topbar .title');
       window.parent.postMessage({type: 'open-tab', url: url,
         label: lb ? lb.textContent.trim() : ''}, '*');
     }
 
-    // Kích hoạt ngay khi tải trang: nếu trong iframe -> ẩn menu/burger riêng
+    // K穩ch ho廕﹀ ngay khi t廕ξ trang: n廕簑 trong iframe -> 廕姊 menu/burger ri礙ng
     if (inTab()) document.body.classList.add('in-tab');
 
     function baoLoi(text) {
       if (!text) return;
       const m = document.getElementById('msg');
       m.style.display = 'block'; m.className = 'err'; m.textContent = text;
-      setTimeout(() => m.style.display = 'none', 5000);
+      setTimeout(() => m.style.display = 'none', 1000);
     }
 
-    // Sau khi lưu xong (trang reload lại) -> thông báo thành công
+    // Sau khi lu xong (trang reload l廕【) -> th繫ng b獺o th?nh c繫ng
     (function () {
       let daLuu = false;
       try { daLuu = sessionStorage.getItem('daLuu') === '1'; sessionStorage.removeItem('daLuu'); } catch (e) {}
       if (daLuu) {
         const m = document.getElementById('msg');
-        m.style.display = 'block'; m.className = 'ok'; m.textContent = 'Dữ liệu đã lưu thành công.';
-        setTimeout(() => m.style.display = 'none', 5000);
+        m.style.display = 'block'; m.className = 'ok'; m.textContent = 'D廙?li廙 ?瓊 lu th?nh c繫ng.';
+        setTimeout(() => m.style.display = 'none', 1000);
       }
     })();
   </script>
