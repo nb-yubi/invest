@@ -36,6 +36,20 @@
   .page-frame { display: none; width: 100%; height: calc(100vh - 38px - 28px);
                 border: none; background: white; }
   .page-frame.active { display: block; }
+
+  /* ===== Responsive: điện thoại / màn hẹp ===== */
+  @media (max-width: 640px) {
+    .topbar { height: 44px; padding: 0 10px; }
+    .burger { font-size: 24px; padding: 4px 10px; }
+    .brand { font-size: 16px; }
+    .user { font-size: 11px; }
+    .menu { top: 44px; width: 78vw; max-width: 280px; }
+    .content { height: calc(100vh - 44px); }
+    .tabbar { padding: 3px 4px 0; gap: 2px; }
+    .tab { font-size: 11px; padding: 5px 8px; }
+    .tab .close { margin-left: 5px; }
+    .page-frame { height: calc(100vh - 44px - 30px); }
+  }
 </style>
 </head>
 <body>

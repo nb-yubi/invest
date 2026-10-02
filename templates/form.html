@@ -48,9 +48,10 @@
   .ic-save { background: #00b894; } .ic-save:hover { background: #00a383; }
 
   /* Bảng */
-  .tbl-holder { overflow-x: auto; }
-  /* Các cột bằng nhau, trừ cột '#' giữ nguyên độ rộng */
-  table { width: 100%; border-collapse: collapse; font-size: 14px; table-layout: fixed; }
+  .tbl-holder { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  /* Các cột bằng nhau, trừ cột '#' giữ nguyên độ rộng.
+     min-width: khi màn hình hẹp -> bảng cuộn ngang thay vì nén/truncate cột */
+  table { width: 100%; min-width: 780px; border-collapse: collapse; font-size: 14px; table-layout: fixed; }
   th, td { border: 1px solid #e1e1e1; padding: 7px 9px; text-align: center; white-space: nowrap;
            overflow: hidden; text-overflow: ellipsis; }
   th:first-child, td:first-child { width: 45px; }
@@ -104,6 +105,35 @@
   /* Khi chạy bên trong tab của trang cha (iframe): ẩn burger + menu riêng,
      menu đã có sẵn trên thanh của trang cha */
   body.in-tab .burger, body.in-tab .menu, body.in-tab .menu-overlay { display: none !important; }
+
+  /* ===== Responsive: điện thoại / màn hẹp ===== */
+  @media (max-width: 640px) {
+    .topbar { height: 42px; padding: 0 10px; }
+    .topbar a.home { font-size: 18px; }
+    .topbar .title { font-size: 15px; }
+    .wrap { padding: 12px 10px 30px; min-height: calc(100vh - 42px); }
+    .menu { top: 42px; width: 78vw; max-width: 280px; }
+    .burger { font-size: 20px; padding: 6px 10px; }
+
+    /* Tra tìm: ô nhập chiếm hết hàng, nút to dễ chạm */
+    .search { padding: 12px; gap: 8px; }
+    .search .fld { flex: 1 1 45%; }
+    .search input { width: 100%; }
+    .search input#s-ma { width: 100%; }
+    .search button { padding: 10px 14px; flex: 1 1 auto; }
+
+    /* Nút chức năng: to hơn cho dễ chạm */
+    .toolbar { gap: 8px; }
+    .toolbar button { padding: 10px 18px; }
+    .toolbar .iconbtn { padding: 10px 18px; }
+
+    /* Bảng: cuộn ngang, chữ hơi nhỏ cho vừa nhiều cột */
+    table { font-size: 13px; }
+    td input { max-width: 130px; }
+
+    .modal { padding: 20px 16px; margin: 0 14px; max-width: none; }
+    .modal .btns button { flex: 1; padding: 12px 10px; }
+  }
 </style>
 </head>
 <body>

@@ -41,8 +41,8 @@
   .ic-cancel { background: #d63031; } .ic-cancel:hover { background: #b82728; }
   .ic-save { background: #00b894; } .ic-save:hover { background: #00a383; }
 
-  .tbl-holder { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .tbl-holder { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; min-width: 640px; border-collapse: collapse; font-size: 14px; }
   th, td { border: 1px solid #e1e1e1; padding: 7px 9px; text-align: center; white-space: nowrap; }
   th { background: #0984e3; color: white; }
   td input { width: 110px; padding: 6px; border: 1px solid #74b9e3; border-radius: 4px;
@@ -90,6 +90,31 @@
   .menu-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.3); z-index: 110; }
   .menu-overlay.show { display: block; }
   body.in-tab .burger, body.in-tab .menu, body.in-tab .menu-overlay { display: none !important; }
+
+  /* ===== Responsive: điện thoại / màn hẹp ===== */
+  @media (max-width: 640px) {
+    .topbar { height: 42px; padding: 0 10px; }
+    .topbar .title { font-size: 15px; }
+    .wrap { padding: 12px 10px 30px; min-height: calc(100vh - 42px); }
+    .menu { top: 42px; width: 78vw; max-width: 280px; }
+    .burger { font-size: 20px; padding: 6px 10px; }
+
+    .search { padding: 12px; gap: 8px; }
+    .search .fld { flex: 1 1 100%; }
+    .search input { width: 100%; }
+    .search input#s-ma { width: 100%; }
+    .search button { padding: 10px 14px; flex: 1 1 auto; }
+
+    .toolbar { gap: 8px; }
+    .toolbar button { padding: 10px 18px; }
+    .toolbar .iconbtn { padding: 10px 18px; }
+
+    table { font-size: 13px; }
+    td input { width: 100%; }
+
+    .modal { padding: 20px 16px; margin: 0 14px; max-width: none; }
+    .modal .btns button { flex: 1; padding: 12px 10px; }
+  }
 </style>
 </head>
 <body>

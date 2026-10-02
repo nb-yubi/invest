@@ -91,12 +91,14 @@
 
     .tbl-wrap {
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
       border-radius: 8px;
       border: 1px solid #e1e1e1;
     }
 
     table {
       width: 100%;
+      min-width: 640px;   /* màn hẹp -> cuộn ngang thay vì nén cột */
       border-collapse: collapse;
       font-size: 14px;
     }
@@ -188,6 +190,24 @@
     /* Khi chạy bên trong tab của trang cha (iframe): ẩn burger + menu riêng,
        menu đã có sẵn trên thanh của trang cha */
     body.in-tab .burger, body.in-tab .menu, body.in-tab .menu-overlay { display: none !important; }
+
+    /* ===== Responsive: điện thoại / màn hẹp ===== */
+    @media (max-width: 640px) {
+      .topbar { height: 42px; padding: 0 10px; }
+      .wrap { padding: 12px 10px 30px; min-height: calc(100vh - 42px); }
+      .card { padding: 14px 10px 20px; }
+      .menu { top: 42px; width: 78vw; max-width: 280px; }
+      .burger { font-size: 20px; padding: 6px 10px; }
+
+      .search { padding: 12px; gap: 8px; }
+      .search .fld { flex: 1 1 100%; }
+      .search input { width: 100%; }
+      .search select { width: 100%; }
+      .search button { padding: 10px 14px; flex: 1 1 auto; }
+
+      table { font-size: 12.5px; }
+      th, td { padding: 6px 6px; }
+    }
   </style>
 </head>
 
